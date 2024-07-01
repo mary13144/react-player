@@ -1,0 +1,96 @@
+@import "src/assets/mixin";
+.progress-container{
+	transition: all 0.5s;
+	width: 100%;
+	.progress-bg{
+		transition: all 0.3s;
+		@include wh(100%,5px);
+		background-color: rgba(255,255,255,.2);
+		border-radius: 2px;
+		position: relative;
+		.progress-buffered{
+			@include wh(0,100%);
+			@include position(absolute,0,auto,auto,0);
+			z-index: 1;
+			border-radius: 2px;
+			background: rgba(255, 255, 255, 0.7);
+		}
+		.progress-played{
+			@include wh(0,100%);
+			@include position(absolute,0,auto,auto,0);
+			z-index: 2;
+			border-radius: 2px;
+			display: flex;
+			justify-content: flex-end;
+			align-items: center;
+			.progress-circle{
+				transition: all 0.3s;
+				transform: translateX(50%);
+				opacity: 0;
+				@include wh(11px,11px);
+				border-radius: 50%;
+			}
+		}
+		.progress-mask{
+			@include wh(100%, calc(100% + 6px));
+			@include position(absolute, -3px, auto, auto, 0);
+			z-index: 100;
+			&:hover{
+				cursor: pointer;
+			}
+		}
+		.progress-tooltip{
+			@include position(absolute,0,auto,auto,0);
+			.tooltip-top,.tooltip-bottom{
+				position: absolute;
+				@include wh(0,0);
+				border-left: 4px solid transparent;
+				border-right: 4px solid transparent;
+				left: -4px;
+			}
+			.tooltip-top{
+				top: -5px;
+				border-bottom: 4px solid transparent;
+			}
+			.tooltip-bottom{
+				top: 5px;
+				border-top: 4px solid transparent;
+			}
+		}
+		.progress-timeTip{
+			@include position(absolute,-28px,auto,auto,0);
+			transform: translateX(-50%);
+
+			.current-time{
+				height: 20px;
+				padding: 1px 4px;
+				background-color: #222222;
+				font-size: 12px;
+				color: #fff;
+				font-weight: bold;
+			}
+		}
+	}
+}
+
+@keyframes enter {
+	from{
+		opacity: 0;
+		transform: scale(1.5);
+	}
+	to{
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes leave {
+	from{
+		opacity: 1;
+		transform: scale(1);
+	}
+	to{
+		opacity: 0;
+		transform: scale(1.5);
+	}
+}

@@ -1,0 +1,33 @@
+@import 'src/assets/mixin';
+
+.controls-container {
+	@include wh(100%, 42px);
+	color: rgb(238, 238, 238);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	.multifunction-container {
+		cursor: pointer;
+		display: flex;
+
+		.multifunction-item {
+			margin: 0 10px;
+		}
+
+		.controls-icon {
+			&:hover {
+				animation: scaleAnimate 0.5s ease;
+			}
+		}
+	}
+}
+
+@keyframes scaleAnimate {
+	50% {
+		transform: scale(1.2);
+	}
+	100% {
+		transform: scale(1);
+	}
+}

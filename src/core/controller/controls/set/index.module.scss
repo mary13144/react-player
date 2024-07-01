@@ -1,0 +1,47 @@
+@import "src/assets/mixin";
+.set-container{
+	position: relative;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	&:hover{
+		.set-icon{
+			animation: setHover 0.5s ease;
+		}
+	}
+	.set-icon-container{
+		font-size: 15px;
+		font-weight: bold;
+		text-align: center;
+		transform: translateX(-50%);
+	}
+	.set-item-container{
+		padding: 0 0 30px 0;
+		background-color: transparent;
+		transition: all 0.5s ease;
+		@include position(absolute,auto,auto,30px,auto);
+		transform: translateX(-50%);
+		z-index: 999;
+		.set-item-list{
+			padding: 5px 0;
+			list-style: none;
+			width: 110px;
+			background-color: rgba(0, 0, 0, 0.7);
+			border-radius: 5px;
+			text-align: center;
+			.set-item{
+				margin: 10px 15px;
+				font-size: 14px;
+			}
+		}
+	}
+}
+
+@keyframes setHover {
+	from{
+		transform: rotate(270deg);
+	}
+	to{
+		transform: rotate(360deg);
+	}
+}

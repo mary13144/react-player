@@ -1,0 +1,19 @@
+
+.monitor-container{
+	display: flex;
+	align-items: center;
+	.icon{
+		cursor: pointer;
+	}
+	.time-container{
+		font-size: 13px;
+		vertical-align: middle;
+		padding: 0 10px;
+		.current-time{
+
+		}
+		.total-time{
+
+		}
+	}
+}

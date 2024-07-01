@@ -1,0 +1,33 @@
+@import "src/assets/mixin";
+
+.controller-container {
+	@include wh(100%, 100%);
+	position: relative;
+	z-index: 3;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+
+	.progress-controls-container {
+		width: calc(100% - 26px);
+		z-index: 102;
+	}
+
+	.controller-mask {
+		@include wh(100%, calc(100% - 47px));
+		@include position(absolute, 0, auto, auto, 0);
+		z-index: 101;
+		outline: none;
+		cursor: pointer;
+
+		.pause-icon {
+			@include position(absolute, auto, 70px, 30px, auto);
+			opacity: 0.7;
+		}
+
+		.waiting-icon {
+			@include position(absolute, 50%, auto, auto, 50%);
+			transform: translate(-50%, -50%);
+		}
+	}
+}

@@ -1,0 +1,16 @@
+@import "src/assets/mixin";
+
+.suspended-progress-container {
+	transition: all 0.3s;
+	animation: show 0.3s ease;
+	@include wh(100%, 3px);
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: 2px;
+	position: absolute;
+
+	.suspended-progress {
+		@include wh(0%, 100%);
+		@include position(absolute, 0, auto, auto, 0);
+		border-radius: 2px;
+	}
+}

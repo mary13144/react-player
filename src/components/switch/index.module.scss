@@ -1,0 +1,36 @@
+@import "src/assets/mixin";
+
+.switch-container {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 14px;
+
+	.switch-label {
+		cursor: pointer;
+		font-size: 15px;
+	}
+
+	.switch {
+		cursor: pointer;
+		position: relative;
+		@include wh(30px, 15px);
+		border-radius: 30px;
+		border: none;
+		outline: none;
+		-webkit-appearance: none;
+
+		&::after {
+			content: '';
+			@include wh(50%, 100%);
+			@include position(absolute, 0, auto, auto, 0);
+			background-color: #ffffff;
+			border-radius: 50%;
+			transition: all 0.5s ease;
+		}
+
+		&:checked::after {
+			left: 50%;
+		}
+	}
+}

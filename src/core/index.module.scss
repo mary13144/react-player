@@ -1,0 +1,25 @@
+@import "src/assets/mixin";
+.player-container{
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	margin: 0;
+	box-sizing: border-box;
+	position: relative;
+	z-index: 100;
+	.lightOffMask{
+		@include wh(100vw, 100vh);
+		@include position(fixed, 0, auto, auto, 0);
+		z-index: 0;
+		background-color: rgba(0, 0, 0, 0.9);
+		display: none;
+	}
+	.player{
+		@include wh(100%,100%);
+		background-color: #000000;
+		object-fit: cover;
+		@include position(absolute,0,auto,auto,0);
+		z-index: 1;
+	}
+}

@@ -1,0 +1,36 @@
+@import "../../../../assets/mixin";
+.multiple-container{
+	position: relative;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	.multiple-text{
+		font-size: 15px;
+		font-weight: bold;
+		text-align: center;
+		transform: translateX(-50%);
+	}
+	.multiple-select-container{
+		padding: 0 0 30px 0;
+		background-color: transparent;
+		transition: all 0.5s ease;
+		@include position(absolute,auto,auto,30px,auto);
+		transform: translateX(-50%);
+		z-index: 999;
+		.multiple-select-list{
+			padding: 5px 0;
+			list-style: none;
+			width: 60px;
+			background-color: rgba(0, 0, 0, 0.7);
+			border-radius: 5px;
+			text-align: center;
+			.multiple-select-item{
+				padding: 10px 10px;
+				font-size: 14px;
+				&:hover{
+					transform: scale(1.1);
+				}
+			}
+		}
+	}
+}

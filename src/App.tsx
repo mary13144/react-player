@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {ReactPlayer} from "./core";
+import {QualityConfig} from "@/types";
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	const defaultQualityList: QualityConfig = {
+		currentKey: 3,
+		qualityList: [
+			{
+				key: 2,
+				enName: "480p",
+				zhName: "标清",
+				url: 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/prod/file/2021/08/31/540p.mp4',
+			},
+			{
+				key: 3,
+				enName: "720p",
+				zhName: "准高清",
+				url: "https://vjs.zencdn.net/v/oceans.mp4",
+			},
+			{
+				key: 4,
+				enName: "1080p",
+				zhName: "高清",
+				url: 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'
+			},
+			{
+				key: 5,
+				enName: "4k",
+				zhName: "超高清",
+				url: 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4'
+			}
+		]
+	}
+	return (
+		<>
+			<ReactPlayer
+				option={{
+					qualityConfig: defaultQualityList,
+					videoSrc: "https://vjs.zencdn.net/v/oceans.mp4",
+					height: 800,
+					width: 1600,
+					mode: 'heightFix',
+					autoPlay: true,
+					language: 'en',
+				}}
+			/>
+		</>
+	)
 }
 
 export default App
