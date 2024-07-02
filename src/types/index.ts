@@ -236,14 +236,6 @@ export interface VideoMethod {
  */
 export interface VideoCallBack<T = CallBackType> {
 	/**
-	 * @description 滑动条按下不放，拖动回调
-	 */
-	onProgressMouseDown: T;
-	/**
-	 * @description 滑动条按下松开回调
-	 */
-	onProgressMouseUp: T;
-	/**
 	 * @description 视频播放回调函数
 	 */
 	onPlay: T;
@@ -252,13 +244,9 @@ export interface VideoCallBack<T = CallBackType> {
 	 */
 	onPause: T;
 	/**
-	 * @description 视频播放时间变化回调函数
-	 */
-	onTimeChange: T;
-	/**
 	 * @description 视频播放结束回调函数
 	 */
-	onEnd: T;
+	onEnded: T;
 	/**
 	 * @description 视频播放失败回调函数
 	 */
@@ -286,6 +274,6 @@ export interface VideoCallBack<T = CallBackType> {
 	/**
 	 * @description 调整播放倍数回调函数
 	 */
-	onMultiple: T
+	onRateChange: T
 }
 

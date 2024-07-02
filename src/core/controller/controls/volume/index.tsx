@@ -20,7 +20,7 @@ const Volume = memo((props: VolumeProps) => {
 
 	const [isShow, setIsShow] = useState<boolean>(false)
 
-	const isDown = useRef<boolean>(false)
+	const [isDown, setIsDown] = useState<boolean>(false)
 
 	const volumeNumber = useMemo(() => {
 		if (isMuted)
@@ -57,7 +57,6 @@ const Volume = memo((props: VolumeProps) => {
 	}
 
 	const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-		e.stopPropagation()
 		const height = volumeRef.current!.offsetHeight
 		const volumePercent = (volumeRef.current!.getBoundingClientRect().bottom - e.clientY) / height
 		if (volumePercent > 1) {
@@ -70,11 +69,11 @@ const Volume = memo((props: VolumeProps) => {
 	}
 
 	const handleMouseDown = () => {
-		isDown.current = true
+		setIsDown(true)
 	}
 
 	const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-		if (!isDown.current)
+		if (!isDown)
 			return
 		const height = volumeRef.current!.offsetHeight
 		const volumePercent = (volumeRef.current!.getBoundingClientRect().bottom - e.clientY) / height
@@ -88,7 +87,7 @@ const Volume = memo((props: VolumeProps) => {
 	}
 
 	const handleMouseUp = () => {
-		isDown.current = false
+		setIsDown(false)
 	}
 
 	useEffect(() => {

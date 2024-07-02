@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useContext, useMemo} from "react";
+import {memo, useCallback, useContext, useEffect, useMemo} from "react";
 import Progress from "./progress";
 import styles from './index.module.scss'
 import Controls from "@/core/controller/controls";
@@ -30,8 +30,11 @@ const Controller = memo(function () {
 		hideTime,
 		isShowProgressFloat
 	} = videoOption!
+
 	const {isPlay, isEnd, isWaiting} = videoAttributes!
+
 	const {isControl} = videoState!
+
 	const pausePosition = useMemo(() => {
 		return pausePlacement === 'center' ? {
 			left: '50%',
@@ -44,25 +47,32 @@ const Controller = memo(function () {
 		return isShowPauseButton !== false && !isPlay && !isEnd
 	}, [isEnd, isPlay])
 
-	const handleMove = useCallback(throttle(() => {
-		dispatch?.({type: 'isControl', data: true})
+	const handleMaskMove = useCallback(throttle(() => {
+		dispatch?.({type: 'isControl', data: !isEnd})
 		handleHide()
-	}, 1000), [])
+	}, 100), [isEnd])
 
 	const handleHide = useCallback(debounce(() => {
 		dispatch?.({type: 'isControl', data: false})
 	}, hideTime || 2000), [])
 
-	const handleReplay = (e: React.MouseEvent) => {
-		e.stopPropagation()
+	const handleReplay = () => {
 		videoAttributes!.isEnd = false
 		handleChangePlayState?.()
 	}
 
+	const handleMove = useCallback(throttle(() => {
+		handleHide.cancel()
+	}, 100), [])
+
+	useEffect(() => {
+		dispatch?.({type: 'isControl', data: false})
+	}, [isEnd]);
+
 	return (
 		<div
 			className={styles.controllerContainer}
-			onMouseMove={handleMove}
+			onMouseMoveCapture={handleMaskMove}
 		>
 			<div
 				className={styles.controllerMask}
@@ -93,7 +103,10 @@ const Controller = memo(function () {
 					)
 				}
 			</div>
-			<div className={styles.progressControlsContainer}>
+			<div
+				className={styles.progressControlsContainer}
+				onMouseMoveCapture={handleMove}
+			>
 				<Progress/>
 				<Controls/>
 			</div>

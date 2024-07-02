@@ -2,8 +2,7 @@ import {ParVoid, VideoAttributes, VideoCallBack, VideoMethod, VideoPlayerOptions
 import {
 	CSSProperties,
 	forwardRef, SyntheticEvent,
-	useCallback,
-	useEffect,
+	useCallback, useEffect,
 	useImperativeHandle,
 	useMemo,
 	useRef
@@ -15,9 +14,8 @@ import '@/assets/reset.scss'
 import styles from './index.module.scss';
 import Controller from "./controller";
 import {VideoContext, VideoContextType} from "@/core/context";
-import useUpdate from "@/core/hooks/useUpdate.ts";
+import useVideo from "@/core/hooks/useVideo.ts";
 import {defaultVolume} from "@/core/config";
-
 
 interface videoProps extends Partial<VideoCallBack> {
 	option: VideoPlayerOptions;
@@ -37,18 +35,15 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 		option,
 		className,
 		style,
-		onProgressMouseDown,
-		onProgressMouseUp,
 		onPlay,
 		onPause,
-		onEnd,
+		onEnded,
 		onError,
 		onQualityChange,
-		onTimeChange,
 		onVolumeChange,
 		onInPicture,
 		onLeavePicture,
-		onMultiple,
+		onRateChange,
 		onIsControl,
 	} = props
 
@@ -63,7 +58,6 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 		crossOrigin,
 		poster,
 	} = option
-
 
 	/**
 	 * @description 视频容器对象
@@ -117,12 +111,16 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 	 * @description 设置hls
 	 */
 	const setHls = useCallback(() => {
+		const src = videoSrc ?
+			videoSrc :
+			qualityConfig?.qualityList.find(item => item.key === qualityConfig?.currentKey)?.url;
 		if (videoRef.current && videoType === 'hls') {
 			if (Hls.isSupported()) {
 				const hls = new Hls()
-
-				// hls.loadSource(videoSrc)
-				hls.attachMedia(videoRef.current)
+				if (src) {
+					hls.loadSource(src)
+					hls.attachMedia(videoRef.current)
+				}
 			}
 		}
 	}, [videoType])
@@ -131,14 +129,9 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 	 * @description 视频资源
 	 */
 	const VideoSource = useMemo(() => {
-		let src;
-		if (videoSrc) {
-			src = videoSrc
-		} else {
-			src = qualityConfig?.qualityList.find(item => {
-				return item.key === qualityConfig?.currentKey;
-			})?.url
-		}
+		const src = videoSrc ?
+			videoSrc :
+			qualityConfig?.qualityList.find(item => item.key === qualityConfig?.currentKey)?.url;
 		return (
 			<>
 				<source src={src} type='video/mp4'/>
@@ -148,96 +141,25 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 		)
 	}, [videoSrc, JSON.stringify(qualityConfig)])
 
-
-	/**
-	 * @description 视频属性
-	 */
-	const videoAttributes = useRef<VideoAttributes>({
-		bufferedTime: 0,
-		currentTime: 0,
-		duration: 0,
-		error: undefined,
-		isEnd: false,
-		isPictureInPicture: false,
-		isPlay: false,
-		isWaiting: false,
-		multiple: 1.0,
-		volume: 0
-	})
-	const forceUpdate = useUpdate()
-	const updateVideoState = <T extends Partial<VideoAttributes>>(val: T) => {
-		videoAttributes.current = {...videoAttributes.current, ...val}
-		forceUpdate()
-	}
 	const setVolume: ParVoid<number> = (val) => {
 		videoRef.current!.volume = val <= 1 ? val : val / 100;
 	}
+
 	const handleChangePlayState = () => {
-		if (videoAttributes.current.isPlay) {
+		if (videoAttributes.isPlay) {
 			videoRef.current?.pause()
 		} else {
 			videoRef.current?.play()
 		}
 	}
-	const handleCanPlay = (e: SyntheticEvent<HTMLVideoElement, Event>) => {
-		updateVideoState({duration: videoRef.current?.duration})
-		setVideoWH(e)
-	}
-	const handleEnterPicture = () => {
-		updateVideoState({isPictureInPicture: true})
-		onInPicture?.(videoAttributes.current)
-	}
-	const handleLeavePicture = () => {
-		updateVideoState({isPictureInPicture: false})
-		onLeavePicture?.(videoAttributes.current)
-	}
-	const handlePause = () => {
-		updateVideoState({isPlay: !videoRef.current?.paused})
-		onPause?.(videoAttributes.current)
-	}
-	const handlePlay = () => {
-		updateVideoState({isPlay: !videoRef.current?.paused})
-		onPlay?.(videoAttributes.current)
-	}
-	const handleEnd = () => {
-		updateVideoState({isEnd: videoRef.current?.ended})
-		onEnd?.(videoAttributes.current)
-	}
-	const handleError = () => {
-		updateVideoState({error: `播放错误,时间:${Date.now()}`})
-		onError?.()
-	}
-	const handleVolumeChange = () => {
-		updateVideoState({volume: videoRef.current?.volume})
-		onVolumeChange?.(videoAttributes.current)
-	}
-	const handleRateChange = () => {
-		updateVideoState({multiple: videoRef.current?.playbackRate})
-	}
-	const handleBufferedTime = () => {
-		if (videoRef.current!.buffered.length >= 1) {
-			updateVideoState({bufferedTime: videoRef.current?.buffered.end(0)})
-		}
 
-	}
-	const handleCurrentTime = () => {
-		onTimeChange?.(videoAttributes.current)
-	}
-	const handleWaiting = () => {
-		updateVideoState({isWaiting: true})
-	}
-	const handlePlaying = () => {
-		updateVideoState({isWaiting: false})
-	}
+	const videoAttributes = useVideo(videoRef.current!)
 
 	/**
 	 * @description 执行用户回调
 	 */
-	useVideoCallBack(videoAttributes.current, videoState, {
+	useVideoCallBack(videoAttributes, videoState, {
 		onIsControl,
-		onMultiple,
-		onProgressMouseDown,
-		onProgressMouseUp,
 		onQualityChange,
 	})
 
@@ -266,26 +188,20 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 	}, [])
 
 	// 视频初始化
-	const timer = useRef<NodeJS.Timeout | undefined>()
 	useEffect(() => {
 		setHls()
 		setVolume(defaultVolume)
-		/**
-		 * @description 监听是否进入画中画
-		 */
+		const handleEnterPicture = () => {
+			onInPicture?.(videoAttributes)
+		}
+		const handleLeavePicture = () => {
+			onLeavePicture?.(videoAttributes)
+		}
 		videoRef.current?.addEventListener('enterpictureinpicture', handleEnterPicture)
-		/**
-		 * @description 监听是否离开画中画
-		 */
 		videoRef.current?.addEventListener('leavepictureinpicture', handleLeavePicture)
-
-		timer.current = setInterval(() => {
-			updateVideoState({currentTime: videoRef.current?.currentTime})
-		}, 10)
 		return () => {
-			videoRef.current?.removeEventListener('enterpictureinpicture', handleEnterPicture);
-			videoRef.current?.removeEventListener('leavepictureinpicture', handleLeavePicture);
-			timer.current && clearInterval(timer.current)
+			videoRef.current?.removeEventListener('enterpictureinpicture', handleEnterPicture)
+			videoRef.current?.removeEventListener('leavepictureinpicture', handleLeavePicture)
 		}
 	}, [videoType]);
 
@@ -295,17 +211,17 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 			videoContainerEle: videoContainerRef.current!,
 			lightOffMaskEle: lightOffMaskRef.current!,
 			videoOption: option,
-			videoAttributes: videoAttributes.current,
+			videoAttributes: videoAttributes,
 			videoMethod: videoMethod,
 			videoState: videoState,
 			dispatch,
 			handleChangePlayState
 		}
-	}, [videoAttributes.current, JSON.stringify(option), videoState])
+	}, [videoAttributes, JSON.stringify(option), videoState])
 
 	useImperativeHandle(ref, () => ({
 		videoElement: videoRef.current!,
-		...videoAttributes.current,
+		...videoAttributes,
 		...videoMethod
 	}))
 
@@ -318,19 +234,16 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 		>
 			<div className={styles.lightOffMask} ref={lightOffMaskRef}></div>
 			<video
-				onCanPlay={handleCanPlay}
-				onProgress={handleBufferedTime}
-				onTimeUpdate={handleCurrentTime}
-				onPause={handlePause}
-				onPlay={handlePlay}
-				onError={handleError}
-				onVolumeChange={handleVolumeChange}
-				onEnded={handleEnd}
-				onRateChange={handleRateChange}
-				onPlaying={handlePlaying}
-				onWaiting={handleWaiting}
+				onCanPlay={setVideoWH}
+				onPlay={() => onPlay?.(videoAttributes)}
+				onPause={() => onPause?.(videoAttributes)}
+				onEnded={() => onEnded?.(videoAttributes)}
+				onError={() => onError?.()}
+				onVolumeChange={() => onVolumeChange?.(videoAttributes)}
+				onRateChange={() => onRateChange?.(videoAttributes)}
 				ref={videoRef}
 				autoPlay={autoPlay}
+				muted={true}
 				className={styles.player}
 				crossOrigin={crossOrigin}
 				poster={poster}

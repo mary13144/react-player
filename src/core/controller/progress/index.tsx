@@ -1,9 +1,10 @@
-import React, {FC, memo, useContext, useEffect, useMemo, useRef, useState} from "react";
+import React, {FC, memo, useCallback, useContext, useMemo, useRef, useState} from "react";
 import styles from './index.module.scss'
 import {VideoContext} from "@/core/context";
 import {defaultTheme} from "@/core/config";
 import {throttle} from "lodash";
 import {transToMinutesAndSeconds} from "@/core/utils";
+import useDrag from "@/core/hooks/useDrag.ts";
 
 const Progress: FC = memo(() => {
 
@@ -13,15 +14,13 @@ const Progress: FC = memo(() => {
 		videoState,
 		videoOption,
 		videoMethod,
-		dispatch
 	} = useContext(VideoContext)
+
 	const {duration, bufferedTime, currentTime} = videoAttributes!
 
 	const progressBgRef = useRef<HTMLDivElement>(null!)
 
 	const progressCircleRef = useRef<HTMLDivElement>(null!)
-
-	const isDrag = useRef<boolean>(false)
 
 	const [inProgress, setInProgress] = useState<boolean>(false)
 
@@ -41,40 +40,20 @@ const Progress: FC = memo(() => {
 		setInProgress(false)
 	}
 
-	useEffect(() => {
-		window.addEventListener('mousemove', handleMouseMove)
-		window.addEventListener('mouseup', handleMouseUp)
-		return () => {
-			window.removeEventListener('mousemove', handleMouseMove)
-			window.removeEventListener('mouseup', handleMouseUp)
+	useDrag(progressBgRef.current, {
+		onDrag: (dragData) => {
+			const curTime = dragData.percentX * duration
+			if (curTime > 0 && curTime < duration) {
+				videoMethod?.seek(curTime);
+			} else if (curTime <= 0) {
+				videoMethod?.seek(0)
+			} else if (curTime >= duration) {
+				videoMethod?.seek(duration)
+			}
 		}
-	}, []);
+	})
 
-	const handleMouseDown = () => {
-		isDrag.current = true
-		dispatch?.({type: 'progressMouseDownChangeVal', data: Date.now()})
-	}
-	const handleMouseMove = throttle((e: MouseEvent) => {
-		if (!isDrag.current)
-			return
-		const leftDistance = progressBgRef.current.getBoundingClientRect().left
-		const deltaX = e.clientX - leftDistance;
-		const curTime = calcCurrentTime(deltaX)
-		if (curTime > 0 && curTime < duration) {
-			videoMethod?.seek(curTime);
-		} else if (curTime <= 0) {
-			videoMethod?.seek(0)
-		} else if (curTime >= duration) {
-			videoMethod?.seek(duration)
-		}
-	}, 10)
-	const handleMouseUp = () => {
-		isDrag.current = false
-		if (currentTime < duration && !isDrag) {
-			videoMethod?.play()
-		}
-		dispatch?.({type: 'progressMouseUpChangeVal', data: Date.now()})
-	}
+
 	const handleClick = (e: React.MouseEvent) => {
 		const leftDistance = progressBgRef.current.getBoundingClientRect().left
 		const deltaX = e.clientX - leftDistance;
@@ -88,11 +67,11 @@ const Progress: FC = memo(() => {
 		}
 	}
 
-	const handleProgressMove = throttle((e: React.MouseEvent) => {
+	const handleProgressMove = useCallback(throttle((e: React.MouseEvent) => {
 		const leftDistance = progressBgRef.current.getBoundingClientRect().left
 		const deltaX = e.clientX - leftDistance;
 		setPositionX(deltaX)
-	}, 10)
+	}, 10), [progressBgRef.current])
 
 	const calcCurrentTime = (curDistance: number) => {
 		const sumX = progressBgRef.current.clientWidth;
@@ -101,14 +80,16 @@ const Progress: FC = memo(() => {
 	}
 
 	const calcPlayedPercent = useMemo(() => {
-		if (!duration)
+		if (!duration) {
 			return '0%'
+		}
 		return ((currentTime / duration) * 100).toString() + "%"
 	}, [currentTime, duration])
 
 	const calcBufferedPercent = useMemo(() => {
-		if (!duration)
+		if (!duration) {
 			return '0%'
+		}
 		return ((bufferedTime / duration) * 100).toString() + "%"
 	}, [bufferedTime, duration])
 
@@ -133,7 +114,6 @@ const Progress: FC = memo(() => {
 					onMouseEnter={handleMouseEnter}
 					onMouseLeave={handleMouseLeave}
 					onMouseMove={handleProgressMove}
-					onMouseDown={handleMouseDown}
 					onClick={handleClick}
 				></div>
 				{

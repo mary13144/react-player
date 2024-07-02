@@ -1,67 +1,80 @@
 @import "src/assets/mixin";
-.progress-container{
+
+.progress-container {
 	transition: all 0.5s;
 	width: 100%;
-	.progress-bg{
+
+	.progress-bg {
 		transition: all 0.3s;
-		@include wh(100%,5px);
-		background-color: rgba(255,255,255,.2);
+		@include wh(100%, 5px);
+		background-color: rgba(255, 255, 255, .2);
 		border-radius: 2px;
 		position: relative;
-		.progress-buffered{
-			@include wh(0,100%);
-			@include position(absolute,0,auto,auto,0);
-			z-index: 1;
+
+		.progress-buffered {
+			@include wh(0, 100%);
+			@include position(absolute, 0, auto, auto, 0);
 			border-radius: 2px;
 			background: rgba(255, 255, 255, 0.7);
+			z-index: 1;
 		}
-		.progress-played{
-			@include wh(0,100%);
-			@include position(absolute,0,auto,auto,0);
-			z-index: 2;
+
+		.progress-played {
+			@include wh(0, 100%);
+			@include position(absolute, 0, auto, auto, 0);
 			border-radius: 2px;
 			display: flex;
 			justify-content: flex-end;
 			align-items: center;
-			.progress-circle{
+			z-index: 2;
+
+			.progress-circle {
 				transition: all 0.3s;
 				transform: translateX(50%);
 				opacity: 0;
-				@include wh(11px,11px);
+				@include wh(11px, 11px);
 				border-radius: 50%;
 			}
 		}
-		.progress-mask{
+
+		.progress-mask {
 			@include wh(100%, calc(100% + 6px));
 			@include position(absolute, -3px, auto, auto, 0);
 			z-index: 100;
-			&:hover{
+			background-color: transparent;
+
+			&:hover {
 				cursor: pointer;
 			}
 		}
-		.progress-tooltip{
-			@include position(absolute,0,auto,auto,0);
-			.tooltip-top,.tooltip-bottom{
+
+		.progress-tooltip {
+			@include position(absolute, 0, auto, auto, 0);
+
+			.tooltip-top, .tooltip-bottom {
 				position: absolute;
-				@include wh(0,0);
+				@include wh(0, 0);
 				border-left: 4px solid transparent;
 				border-right: 4px solid transparent;
 				left: -4px;
 			}
-			.tooltip-top{
+
+			.tooltip-top {
 				top: -5px;
 				border-bottom: 4px solid transparent;
 			}
-			.tooltip-bottom{
+
+			.tooltip-bottom {
 				top: 5px;
 				border-top: 4px solid transparent;
 			}
 		}
-		.progress-timeTip{
-			@include position(absolute,-28px,auto,auto,0);
+
+		.progress-timeTip {
+			@include position(absolute, -28px, auto, auto, 0);
 			transform: translateX(-50%);
 
-			.current-time{
+			.current-time {
 				height: 20px;
 				padding: 1px 4px;
 				background-color: #222222;
@@ -74,22 +87,22 @@
 }
 
 @keyframes enter {
-	from{
+	from {
 		opacity: 0;
 		transform: scale(1.5);
 	}
-	to{
+	to {
 		opacity: 1;
 		transform: scale(1);
 	}
 }
 
 @keyframes leave {
-	from{
+	from {
 		opacity: 1;
 		transform: scale(1);
 	}
-	to{
+	to {
 		opacity: 0;
 		transform: scale(1.5);
 	}

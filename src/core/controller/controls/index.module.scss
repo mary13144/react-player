@@ -1,6 +1,7 @@
 @import 'src/assets/mixin';
 
 .controls-container {
+	transition: all 0.5s;
 	@include wh(100%, 42px);
 	color: rgb(238, 238, 238);
 	display: flex;
