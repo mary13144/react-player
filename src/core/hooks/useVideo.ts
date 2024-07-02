@@ -62,8 +62,9 @@ const useVideo = (videoEle: HTMLVideoElement) => {
 	const handleWaiting = () => {
 		updateVideoState({isWaiting: true})
 	}
+
 	const handlePlaying = () => {
-		updateVideoState({isWaiting: false})
+		updateVideoState({isWaiting: false, isPlay: !videoEle.paused})
 	}
 
 	useEffect(() => {

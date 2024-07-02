@@ -197,8 +197,15 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 		const handleLeavePicture = () => {
 			onLeavePicture?.(videoAttributes)
 		}
+
 		videoRef.current?.addEventListener('enterpictureinpicture', handleEnterPicture)
 		videoRef.current?.addEventListener('leavepictureinpicture', handleLeavePicture)
+
+		if (videoRef.current && autoPlay) {
+			videoMethod.setMuted(true)
+			videoMethod.play()
+		}
+
 		return () => {
 			videoRef.current?.removeEventListener('enterpictureinpicture', handleEnterPicture)
 			videoRef.current?.removeEventListener('leavepictureinpicture', handleLeavePicture)
@@ -242,8 +249,6 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 				onVolumeChange={() => onVolumeChange?.(videoAttributes)}
 				onRateChange={() => onRateChange?.(videoAttributes)}
 				ref={videoRef}
-				autoPlay={autoPlay}
-				muted={true}
 				className={styles.player}
 				crossOrigin={crossOrigin}
 				poster={poster}
