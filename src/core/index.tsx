@@ -53,7 +53,6 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 		videoType,
 		width,
 		height,
-		autoPlay,
 		mode,
 		qualityConfig,
 		crossOrigin,
@@ -225,11 +224,7 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 
 		videoRef.current?.addEventListener('enterpictureinpicture', handleEnterPicture)
 		videoRef.current?.addEventListener('leavepictureinpicture', handleLeavePicture)
-
-		if (videoRef.current && autoPlay) {
-			!isMobile && videoMethod.setMuted(true)
-			videoMethod.play()
-		}
+		
 
 		return () => {
 			videoRef.current?.removeEventListener('enterpictureinpicture', handleEnterPicture)

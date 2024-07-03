@@ -145,9 +145,13 @@ const Controls = memo(function () {
 						</div>
 					)
 				}
-				<div className={styles.multifunctionItem}>
-					<Volume theme={curTheme}/>
-				</div>
+				{
+					!isMobile && (
+						<div className={styles.multifunctionItem}>
+							<Volume theme={curTheme}/>
+						</div>
+					)
+				}
 				{
 					!isMobile && isShowSet !== false && (
 						<div className={styles.multifunctionItem}>

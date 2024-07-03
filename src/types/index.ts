@@ -57,10 +57,6 @@ export interface VideoPlayerOptions {
 	 */
 	videoType?: VideoSrcType;
 	/**
-	 * @description 自动播放
-	 */
-	autoPlay?: boolean;
-	/**
 	 * @description 视频缩放模式
 	 */
 	mode?: ScaleMode;

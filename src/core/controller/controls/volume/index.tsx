@@ -60,18 +60,10 @@ const Volume = memo((props: VolumeProps) => {
 	const handleIsMute = () => {
 		setIsMuted(prevState => !prevState)
 	}
-	const isMobile = useIsMobile()
-	const handleClick = (e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+
+	const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
 		const height = volumeRef.current!.offsetHeight
-		let positionX;
-		if (!isMobile) {
-			const event = e as React.MouseEvent<HTMLDivElement>
-			positionX = event.clientX
-		} else {
-			const event = e as React.TouchEvent<HTMLDivElement>
-			positionX = event.touches[0].clientX
-		}
-		const volumePercent = (volumeRef.current!.getBoundingClientRect().bottom - positionX) / height
+		const volumePercent = (volumeRef.current!.getBoundingClientRect().bottom - e.clientY) / height
 		if (volumePercent > 1) {
 			videoMethod?.setVolume(1)
 		} else if (volumePercent < 0) {
@@ -80,7 +72,6 @@ const Volume = memo((props: VolumeProps) => {
 			videoMethod?.setVolume(volumePercent)
 		}
 	}
-
 
 	useDrag({
 		onDrag: (dragData) => {
@@ -97,6 +88,9 @@ const Volume = memo((props: VolumeProps) => {
 		}
 	}, volumeSetRef.current!, volumeSetRef.current!)
 
+
+	const isMobile = useIsMobile()
+
 	return (
 		<div
 			onMouseEnter={!isMobile ? handleMouseEnter : undefined}
@@ -105,7 +99,7 @@ const Volume = memo((props: VolumeProps) => {
 		>
 			<div
 				onClick={!isMobile ? handleIsMute : undefined}
-				onTouchStart={isMobile ? handleTouched : undefined}
+				onTouchEnd={isMobile ? handleTouched : undefined}
 				className={styles.volumeIcon}
 			>
 				<SvgIcon iconClass={isMuted ? 'mute' : 'volume'} fill={'#fff'} fontSize={'20px'}/>
@@ -116,7 +110,6 @@ const Volume = memo((props: VolumeProps) => {
 			>
 				<div
 					onClick={!isMobile ? handleClick : undefined}
-					// onTouchStart={isMobile ? handleClick : undefined}
 					ref={volumeSetRef}
 					className={styles.volumeSet}
 				>
