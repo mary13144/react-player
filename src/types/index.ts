@@ -176,13 +176,17 @@ export interface VideoAttributes {
 	 */
 	volume: number;
 	/**
+	 * @description 是否静音
+	 */
+	isMute: boolean;
+	/**
 	 * @description 视频播放倍数
 	 */
 	multiple: number;
 	/**
 	 * @description 是否播放结束
 	 */
-	isEnd: boolean;
+	isEnded: boolean;
 	/**
 	 * @description 错误
 	 */

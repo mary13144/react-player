@@ -15,6 +15,7 @@ export interface LangType<T = string> {
 	loop: T,
 	replay: T,
 	error: T,
+	volume: T
 }
 
 const zhJson: LangType = {
@@ -31,7 +32,8 @@ const zhJson: LangType = {
 	light: '关灯',
 	loop: '循环',
 	replay: '重播',
-	error: '错误'
+	error: '错误',
+	volume: '音量'
 }
 
 const enJson: LangType = {
@@ -48,7 +50,8 @@ const enJson: LangType = {
 	light: 'Dark',
 	loop: 'Loop',
 	replay: 'Replay',
-	error: 'Error'
+	error: 'Error',
+	volume: 'Volume'
 }
 
 export const i18n = (languageType: LanguageType, key: keyof LangType) => {

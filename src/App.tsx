@@ -33,18 +33,21 @@ function App() {
 	}
 	return (
 		<>
-			<ReactPlayer
-				option={{
-					qualityConfig: defaultQualityList,
-					// videoSrc: "https://vjs.zencdn.net/v/oceans.mp4",
-					videoSrc: 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4',
-					height: 800,
-					width: 1600,
-					mode: 'heightFix',
-					autoPlay: true,
-					language: 'en',
-				}}
-			/>
+			<div style={{margin: '100px auto'}}>
+				<ReactPlayer
+					option={{
+						qualityConfig: defaultQualityList,
+						// videoSrc: "https://vjs.zencdn.net/v/oceans.mp4",
+						videoSrc: 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4',
+						// poster: 'https://via.placeholder.com/600x400.png?text=Poster+Image',
+						height: 800,
+						width: 1600,
+						mode: 'heightFix',
+						autoPlay: true,
+						language: 'en',
+					}}
+				/>
+			</div>
 		</>
 	)
 }

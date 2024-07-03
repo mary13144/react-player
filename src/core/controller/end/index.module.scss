@@ -4,7 +4,7 @@
 	@include position(absolute, 0, 0, 0, 0);
 	z-index: 1300;
 	cursor: default;
-	background-color: rgba(0, 0, 0, 0.7);
+	background-color: rgba(0, 0, 0, 1);
 
 	.end-replay {
 		@include position(absolute, 50%, 0, 0, 50%);

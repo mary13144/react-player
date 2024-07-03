@@ -1,4 +1,4 @@
-import {memo, useCallback, useContext, useEffect, useMemo} from "react";
+import {memo, useCallback, useContext, useEffect, useMemo, useRef} from "react";
 import Progress from "./progress";
 import styles from './index.module.scss'
 import Controls from "@/core/controller/controls";
@@ -8,6 +8,7 @@ import End from "@/core/controller/end";
 import {defaultLanguage, defaultTheme} from "@/core/config";
 import SuspendedProgress from "@/core/controller/suspendedProgress";
 import {debounce, throttle} from "lodash";
+import useIsMobile from "@/core/hooks/useIsMobile.ts";
 
 
 const Controller = memo(function () {
@@ -17,7 +18,7 @@ const Controller = memo(function () {
 		videoOption,
 		videoAttributes,
 		videoState,
-		dispatch
+		dispatch,
 	} = useContext(VideoContext)
 	const {
 		pausePlacement,
@@ -31,33 +32,39 @@ const Controller = memo(function () {
 		isShowProgressFloat
 	} = videoOption!
 
-	const {isPlay, isEnd, isWaiting} = videoAttributes!
+	const {isPlay, isEnded, isWaiting} = videoAttributes!
 
 	const {isControl} = videoState!
+
+	const isMobile = useIsMobile()
 
 	const pausePosition = useMemo(() => {
 		return pausePlacement === 'center' ? {
 			left: '50%',
 			top: '50%',
 			transform: 'translate(-50%, -50%)',
-		} : undefined
+		} : {
+			right: '10%',
+			bottom: '10%'
+		}
+
 	}, [pausePlacement])
 
 	const isShowPause = useMemo(() => {
-		return isShowPauseButton !== false && !isPlay && !isEnd
-	}, [isEnd, isPlay])
+		return isShowPauseButton !== false && !isPlay && !isEnded
+	}, [isEnded, isPlay])
 
 	const handleMaskMove = useCallback(throttle(() => {
-		dispatch?.({type: 'isControl', data: !isEnd})
+		dispatch?.({type: 'isControl', data: !isEnded})
 		handleHide()
-	}, 100), [isEnd])
+	}, 100), [isEnded])
 
 	const handleHide = useCallback(debounce(() => {
 		dispatch?.({type: 'isControl', data: false})
 	}, hideTime || 2000), [])
 
 	const handleReplay = () => {
-		videoAttributes!.isEnd = false
+		videoAttributes!.isEnded = false
 		handleChangePlayState?.()
 	}
 
@@ -66,9 +73,37 @@ const Controller = memo(function () {
 	}, 100), [])
 
 	useEffect(() => {
-		dispatch?.({type: 'isControl', data: false})
-	}, [isEnd]);
+		if (isEnded)
+			dispatch?.({type: 'isControl', data: false})
+	}, [isEnded]);
 
+	// 移动端双击模拟
+	const lastTouchEnd = useRef<number>(0);
+	const doubleClickTimeout = useRef<NodeJS.Timeout | undefined>()
+	const doubleClickDelay = useRef<number>(300); // 双击的最大间隔时间，单位毫秒
+
+	const handleTouchStart = () => {
+		if (doubleClickTimeout.current) {
+			clearTimeout(doubleClickTimeout.current);
+		}
+	}
+
+	const handleTouched = () => {
+		const currentTime = new Date().getTime();
+		const timeSinceLastTouchEnd = currentTime - lastTouchEnd.current;
+		if (timeSinceLastTouchEnd < doubleClickDelay.current && timeSinceLastTouchEnd > 0) {
+			// 在这里添加双击事件的逻辑
+			handleChangePlayState?.()
+			clearTimeout(doubleClickTimeout.current); // 防止双击之后再次触发单击事件
+			lastTouchEnd.current = 0; // 重置 lastTouchEnd 防止多次触发
+		} else {
+			doubleClickTimeout.current = setTimeout(() => {
+				// 在这里添加单击事件的逻辑
+			}, doubleClickDelay.current);
+		}
+
+		lastTouchEnd.current = currentTime;
+	}
 	return (
 		<div
 			className={styles.controllerContainer}
@@ -77,7 +112,9 @@ const Controller = memo(function () {
 			<div
 				className={styles.controllerMask}
 				style={{cursor: isControl ? 'pointer' : 'none'}}
-				onClick={handleChangePlayState}
+				onClick={!isMobile ? handleChangePlayState : undefined}
+				onTouchStart={handleTouchStart}
+				onTouchEnd={handleTouched}
 			>
 				{
 					isShowPause && (
@@ -85,7 +122,7 @@ const Controller = memo(function () {
 							<SvgIcon
 								iconClass={'player'}
 								fill={'#fff'}
-								fontSize={'55px'}
+								fontSize={isMobile ? '2em' : '55px'}
 								className={styles.pauseIcon}
 								style={pausePosition}
 							/>
@@ -97,7 +134,7 @@ const Controller = memo(function () {
 							<SvgIcon
 								iconClass={'loading'}
 								fill={theme ? theme : defaultTheme}
-								fontSize={'55px'}
+								fontSize={isMobile ? '2em' : '55px'}
 								className={styles.waitingIcon}
 							/>
 					)
@@ -116,7 +153,7 @@ const Controller = memo(function () {
 				)
 			}
 			{
-				isEnd && (
+				isEnded && (
 					setEndContent ? setEndContent : (
 						<End
 							handleClick={handleReplay}

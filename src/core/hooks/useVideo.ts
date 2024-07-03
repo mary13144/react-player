@@ -9,12 +9,13 @@ const useVideo = (videoEle: HTMLVideoElement) => {
 		currentTime: 0,
 		duration: 0,
 		error: undefined,
-		isEnd: false,
+		isEnded: false,
 		isPictureInPicture: false,
 		isPlay: false,
 		isWaiting: false,
 		multiple: 1.0,
-		volume: 0
+		volume: 0,
+		isMute: false
 	})
 
 	const timer = useRef<NodeJS.Timeout | undefined>()
@@ -42,13 +43,13 @@ const useVideo = (videoEle: HTMLVideoElement) => {
 		updateVideoState({isPlay: !videoEle.paused})
 	}
 	const handleEnd = () => {
-		updateVideoState({isEnd: videoEle.ended})
+		updateVideoState({isEnded: videoEle.ended})
 	}
 	const handleError = () => {
 		updateVideoState({error: `播放错误,时间:${Date.now()}`})
 	}
 	const handleVolumeChange = () => {
-		updateVideoState({volume: videoEle.volume})
+		updateVideoState({volume: videoEle.volume, isMute: videoEle.muted})
 	}
 	const handleRateChange = () => {
 		updateVideoState({multiple: videoEle.playbackRate})
@@ -84,7 +85,6 @@ const useVideo = (videoEle: HTMLVideoElement) => {
 		videoEle.addEventListener('progress', handleBufferedTime)
 		videoEle.addEventListener('ratechange', handleRateChange)
 		videoEle.addEventListener('ended', handleEnd)
-
 		timer.current = setInterval(() => {
 			updateVideoState({currentTime: videoEle.currentTime})
 		}, 10)

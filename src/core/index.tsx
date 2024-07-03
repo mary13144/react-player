@@ -16,6 +16,7 @@ import Controller from "./controller";
 import {VideoContext, VideoContextType} from "@/core/context";
 import useVideo from "@/core/hooks/useVideo.ts";
 import {defaultVolume} from "@/core/config";
+import useIsMobile from "@/core/hooks/useIsMobile.ts";
 
 interface videoProps extends Partial<VideoCallBack> {
 	option: VideoPlayerOptions;
@@ -79,6 +80,7 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 	 * @description 设置播放器容器大小
 	 * @param e
 	 */
+	const isMobile = useIsMobile()
 	const setVideoWH = (e: SyntheticEvent<HTMLVideoElement, Event>) => {
 		const target = e.target as HTMLVideoElement
 		const videoWidth = target.videoWidth;
@@ -87,25 +89,48 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 			let scaleH;
 			let scaleW;
 
-			if (width && height) {
-				scaleH = height;
-				scaleW = width;
-			} else {
-				if (mode === 'widthFix' && width) {
-					scaleH = (width * videoHeight) / videoWidth;
-					scaleW = width
-				} else if (mode === 'heightFix' && height) {
-					scaleH = height
-					scaleW = (height * videoWidth) / videoHeight
+			// 移动端适配逻辑
+			if (isMobile) {
+				const windowWidth = window.innerWidth;
+				const windowHeight = window.innerHeight;
+
+				if (videoWidth > windowWidth) {
+					scaleW = windowWidth;
+					scaleH = (windowWidth * videoHeight) / videoWidth;
+				} else if (videoHeight > windowHeight) {
+					scaleH = windowHeight;
+					scaleW = (windowHeight * videoWidth) / videoHeight;
 				} else {
-					scaleH = height ? height : videoHeight;
-					scaleW = width ? width : videoWidth;
+					scaleW = videoWidth
+					scaleH = videoHeight
+				}
+
+			} else {
+				if (width && height) {
+					scaleH = height;
+					scaleW = width;
+				} else {
+					if (mode === 'widthFix' && width) {
+						scaleH = (width * videoHeight) / videoWidth;
+						scaleW = width
+					} else if (mode === 'heightFix' && height) {
+						scaleH = height
+						scaleW = (height * videoWidth) / videoHeight
+					} else {
+						scaleH = height ? height : videoHeight;
+						scaleW = width ? width : videoWidth;
+					}
 				}
 			}
+
 			videoContainerRef.current.style.width = `${scaleW}px`
 			videoContainerRef.current.style.height = `${scaleH}px`
 		}
 	}
+
+	useEffect(() => {
+
+	}, [isMobile]);
 
 	/**
 	 * @description 设置hls
@@ -190,7 +215,7 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 	// 视频初始化
 	useEffect(() => {
 		setHls()
-		setVolume(defaultVolume)
+		videoMethod.setVolume(defaultVolume)
 		const handleEnterPicture = () => {
 			onInPicture?.(videoAttributes)
 		}
@@ -202,7 +227,7 @@ export const ReactPlayer = forwardRef<ReactPlayer, videoProps>((props, ref) => {
 		videoRef.current?.addEventListener('leavepictureinpicture', handleLeavePicture)
 
 		if (videoRef.current && autoPlay) {
-			videoMethod.setMuted(true)
+			!isMobile && videoMethod.setMuted(true)
 			videoMethod.play()
 		}
 

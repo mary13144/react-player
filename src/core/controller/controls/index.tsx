@@ -1,4 +1,4 @@
-import {memo, useContext, useMemo, useState} from "react";
+import {memo, useContext, useEffect, useMemo, useState} from "react";
 import styles from './index.module.scss'
 import Monitor from "@/core/controller/controls/monitor";
 import {VideoContext} from "@/core/context";
@@ -12,6 +12,7 @@ import {i18n} from "@/language";
 import SvgIcon from "@/components/svgIcon";
 import screenfull from "screenfull";
 import useToast from "@/components/toast/useToast.ts";
+import useIsMobile from "@/core/hooks/useIsMobile.ts";
 
 const Controls = memo(function () {
 
@@ -19,7 +20,7 @@ const Controls = memo(function () {
 		videoOption,
 		videoELe,
 		videoContainerEle,
-		videoState
+		videoState,
 	} = useContext(VideoContext)
 
 	const {
@@ -50,7 +51,7 @@ const Controls = memo(function () {
 	// 全屏
 	const [isFullScreen, setIsFullScreen] = useState<boolean>(false)
 	const isFullScreenKey = useMemo(() => !isFullScreen ? 'FullScreen' : 'CloseFullScreen', [isFullScreen])
-	const isFullScreenIcon = useMemo(() => !isFullScreen ? 'fullScreen' : 'closeFullScreen', [isFullWebScreen])
+	const isFullScreenIcon = useMemo(() => !isFullScreen ? 'fullScreen' : 'closeFullScreen', [isFullScreen])
 
 	const {showToast} = useToast()
 	// 截图
@@ -96,32 +97,31 @@ const Controls = memo(function () {
 		}
 	}
 
-	const handleChangeGap = () => {
+	useEffect(() => {
 		const list = document.getElementsByClassName(styles.multifunctionItem)
 		for (const listElement of list) {
-			listElement.classList.toggle('full-screen-space')
+			if (isFullWebScreen || isFullScreen) {
+				listElement.classList.add('full-screen-space')
+			} else {
+				listElement.classList.remove('full-screen-space')
+			}
 		}
-	}
+	}, [isFullScreen, isFullWebScreen]);
+
 	// 网页全屏
 	const handleFullWebScreen = () => {
-		if (isFullWebScreen) {
-			setIsFullWebScreen(false)
-			videoContainerEle?.classList.toggle('full-web-screen')
-		} else {
-			setIsFullWebScreen(true)
-			videoContainerEle?.classList.toggle('full-web-screen')
-		}
-		handleChangeGap()
+		setIsFullWebScreen(prevState => !prevState)
+		videoContainerEle?.classList.toggle('full-web-screen')
 	}
 	// 全屏
 	const handleFullScreen = () => {
 		if (screenfull.isEnabled) {
 			setIsFullScreen(prevState => !prevState)
 			screenfull.toggle(videoContainerEle)
-			handleChangeGap()
 		}
 	}
 
+	const isMobile = useIsMobile()
 
 	return (
 		<div
@@ -130,7 +130,7 @@ const Controls = memo(function () {
 		>
 			<Monitor/>
 			<div className={styles.multifunctionContainer}>
-				{qualityConfig && (
+				{!isMobile && qualityConfig && (
 					<div className={styles.multifunctionItem}>
 						<Quality
 							theme={curTheme}
@@ -139,7 +139,7 @@ const Controls = memo(function () {
 					</div>
 				)}
 				{
-					isShowMultiple !== false && (
+					!isMobile && isShowMultiple !== false && (
 						<div className={styles.multifunctionItem}>
 							<Multiple theme={curTheme} language={lang}/>
 						</div>
@@ -149,14 +149,14 @@ const Controls = memo(function () {
 					<Volume theme={curTheme}/>
 				</div>
 				{
-					isShowSet !== false && (
+					!isMobile && isShowSet !== false && (
 						<div className={styles.multifunctionItem}>
 							<Set theme={curTheme} language={lang}/>
 						</div>
 					)
 				}
 				{
-					isShowScreenShot !== false && (
+					!isMobile && isShowScreenShot !== false && (
 						<div className={styles.multifunctionItem}>
 							<ToolTip text={i18n(lang, 'screenshots')}>
 								<SvgIcon
@@ -171,7 +171,7 @@ const Controls = memo(function () {
 					)
 				}
 				{
-					isShowPictureInPicture !== false && (
+					!isMobile && isShowPictureInPicture !== false && (
 						<div className={styles.multifunctionItem}>
 							<ToolTip text={i18n(lang, inPictureKey)}>
 								<SvgIcon
@@ -186,7 +186,7 @@ const Controls = memo(function () {
 					)
 				}
 				{
-					isShowWebFullScreen !== false && (
+					!isMobile && isShowWebFullScreen !== false && (
 						<div className={styles.multifunctionItem}>
 							<ToolTip text={i18n(lang, isFullWebScreenKey)}>
 								<SvgIcon
@@ -201,15 +201,27 @@ const Controls = memo(function () {
 					)
 				}
 				<div className={styles.multifunctionItem}>
-					<ToolTip text={i18n(lang, isFullScreenKey)}>
-						<SvgIcon
-							iconClass={isFullScreenIcon}
-							fill={'#fff'}
-							fontSize={'20px'}
-							className={styles.controlsIcon}
-							onClick={handleFullScreen}
-						/>
-					</ToolTip>
+					{
+						!isMobile ? (
+							<ToolTip text={i18n(lang, isFullScreenKey)}>
+								<SvgIcon
+									iconClass={isFullScreenIcon}
+									fill={'#fff'}
+									fontSize={'20px'}
+									className={styles.controlsIcon}
+									onClick={handleFullScreen}
+								/>
+							</ToolTip>
+						) : (
+							<SvgIcon
+								iconClass={isFullScreenIcon}
+								fill={'#fff'}
+								fontSize={'20px'}
+								className={styles.controlsIcon}
+								onClick={handleFullScreen}
+							/>
+						)
+					}
 				</div>
 			</div>
 		</div>

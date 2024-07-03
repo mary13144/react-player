@@ -5,6 +5,7 @@ import {defaultTheme} from "@/core/config";
 import {throttle} from "lodash";
 import {transToMinutesAndSeconds} from "@/core/utils";
 import useDrag from "@/core/hooks/useDrag.ts";
+import useIsMobile from "@/core/hooks/useIsMobile.ts";
 
 const Progress: FC = memo(() => {
 
@@ -40,9 +41,11 @@ const Progress: FC = memo(() => {
 		setInProgress(false)
 	}
 
-	useDrag(progressBgRef.current, {
+	useDrag({
 		onDrag: (dragData) => {
-			const curTime = dragData.percentX * duration
+			const {left} = progressBgRef.current.getBoundingClientRect()
+			const percentX = (dragData.endX - left) / progressBgRef.current.clientWidth;
+			const curTime = percentX * duration
 			if (curTime > 0 && curTime < duration) {
 				videoMethod?.seek(curTime);
 			} else if (curTime <= 0) {
@@ -51,7 +54,7 @@ const Progress: FC = memo(() => {
 				videoMethod?.seek(duration)
 			}
 		}
-	})
+	}, progressBgRef.current)
 
 
 	const handleClick = (e: React.MouseEvent) => {
@@ -93,6 +96,8 @@ const Progress: FC = memo(() => {
 		return ((bufferedTime / duration) * 100).toString() + "%"
 	}, [bufferedTime, duration])
 
+	const isMobile = useIsMobile()
+
 	return (
 		<div
 			className={styles.progressContainer}
@@ -111,13 +116,15 @@ const Progress: FC = memo(() => {
 				</div>
 				<div
 					className={styles.progressMask}
+					onTouchStart={handleMouseEnter}
+					onTouchEnd={handleMouseLeave}
 					onMouseEnter={handleMouseEnter}
 					onMouseLeave={handleMouseLeave}
 					onMouseMove={handleProgressMove}
 					onClick={handleClick}
 				></div>
 				{
-					inProgress && (
+					!isMobile && inProgress && (
 						<>
 							<div
 								className={styles.progressTooltip}
