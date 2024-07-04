@@ -1,29 +1,30 @@
-@import "src/assets/mixin";
+@import "src/assets/css/mixin";
+@import "src/assets/css/var";
 
 .toast {
 	background-color: rgba(0, 0, 0, 0.7);
-	z-index: 10000;
-	font-size: 13px;
+	z-index: $top-layer;
+	font-size: 0.8rem;
 	color: #ffffff;
-	padding: 8px 10px;
-	border-radius: 2px;
+	padding: 0.5rem 0.625rem;
+	border-radius: 0.125rem;
 	animation: show 0.3s ease;
 }
 
 .leftTop {
-	@include position(absolute, 15px, auto, auto, 15px);
+	@include position(absolute, $toast-gap, auto, auto, $toast-gap);
 }
 
 .rightTop {
-	@include position(absolute, 15px, 15px, auto, auto);
+	@include position(absolute, $toast-gap, $toast-gap, auto, auto);
 }
 
 .leftBottom {
-	@include position(absolute, auto, auto, 60px, 15px);
+	@include position(absolute, auto, auto, $toast-gap+$toast-gap, $toast-gap);
 }
 
 .rightBottom {
-	@include position(absolute, auto, 15px, 60px, auto);
+	@include position(absolute, auto, $toast-gap, $toast-gap+$toast-gap, auto);
 }
 
 .center {

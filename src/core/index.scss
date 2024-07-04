@@ -1,0 +1,45 @@
+@import "src/assets/css/mixin";
+@import "src/assets/css/var";
+
+html {
+	font-size: 16px;
+}
+
+@media (max-width: 768px) {
+	html {
+		font-size: 18px;
+	}
+}
+
+@media (max-width: 480px) {
+	html {
+		font-size: 20px; /* 手机屏幕小设置大一点 */
+	}
+}
+
+.player-container {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	margin: 0;
+	box-sizing: border-box;
+	position: relative;
+	z-index: $bottom-layer;
+	background-color: black;
+
+	.lightOffMask {
+		@include wh(100vw, 100vh);
+		@include position(fixed, 0, auto, auto, 0);
+		z-index: $bottom-layer;
+		background-color: rgba(0, 0, 0, 0.9);
+		display: none;
+	}
+
+	.player {
+		background-color: #000000;
+		object-fit: cover;
+		@include position(absolute, 50%, auto, auto, 50%);
+		transform: translate(-50%, -50%);
+		z-index: $middle-layer;
+	}
+}

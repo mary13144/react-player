@@ -33,6 +33,8 @@ const Quality = memo((props: QualityProps) => {
 
 	const {qualityConfig, isShowToast, toastPosition} = videoOption!
 
+	const {seek, setVideoSrc, pause, play} = videoMethod!
+
 	const {currentKey, qualityList} = qualityConfig!
 
 	const {currentTime, isPlay} = videoAttributes!
@@ -53,12 +55,12 @@ const Quality = memo((props: QualityProps) => {
 			return key === item.key
 		})!
 		qualityConfig!.currentKey = key
-		videoMethod?.setVideoSrc(curQuality.url)
-		videoMethod?.seek(currentTime)
+		setVideoSrc(curQuality.url)
+		seek(currentTime)
 		if (isPlay) {
-			videoMethod?.play()
+			play()
 		} else {
-			videoMethod?.pause()
+			pause()
 		}
 		isShowToast !== false && showToast({
 			message: (

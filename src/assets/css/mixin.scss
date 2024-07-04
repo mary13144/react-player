@@ -11,6 +11,15 @@
 	left: $left;
 }
 
+@mixin multifunction-item {
+	padding: 0 0 1.5rem 0;
+	background-color: transparent;
+	transition: all 0.5s ease;
+	@include position(absolute, auto, auto, 1.5rem, auto);
+	transform: translateX(-50%);
+}
+
+
 @keyframes show {
 	0% {
 		opacity: 0;
@@ -22,3 +31,4 @@
 		opacity: 1;
 	}
 }
+

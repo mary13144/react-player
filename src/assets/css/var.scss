@@ -1,0 +1,20 @@
+/*
+层次变量
+ */
+$top-layer: 100000;
+$second-top-layer: 10000;
+$third-top-layer: 1000;
+$middle-layer: 100;
+$bottom-layer: 10;
+
+
+/*
+整体布局
+ */
+$container-gap: 2rem;
+$container-height: 3.1rem;
+$controls-height: 2.7rem;
+$progress-height: 0.4rem;
+$progress-init: 0.2rem;
+$progress-mask-gap: $progress-height - $progress-init;
+$toast-gap: 5%;

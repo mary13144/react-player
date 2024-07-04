@@ -14,7 +14,7 @@ import useIsMobile from "@/core/hooks/useIsMobile.ts";
 const Controller = memo(function () {
 
 	const {
-		handleChangePlayState,
+		videoMethod,
 		videoOption,
 		videoAttributes,
 		videoState,
@@ -31,6 +31,8 @@ const Controller = memo(function () {
 		hideTime,
 		isShowProgressFloat
 	} = videoOption!
+
+	const {changePlayState} = videoMethod!
 
 	const {isPlay, isEnded, isWaiting} = videoAttributes!
 
@@ -65,7 +67,7 @@ const Controller = memo(function () {
 
 	const handleReplay = () => {
 		videoAttributes!.isEnded = false
-		handleChangePlayState?.()
+		changePlayState?.()
 	}
 
 	const handleMove = useCallback(throttle(() => {
@@ -93,7 +95,7 @@ const Controller = memo(function () {
 		const timeSinceLastTouchEnd = currentTime - lastTouchEnd.current;
 		if (timeSinceLastTouchEnd < doubleClickDelay.current && timeSinceLastTouchEnd > 0) {
 			// 在这里添加双击事件的逻辑
-			handleChangePlayState?.()
+			changePlayState?.()
 			clearTimeout(doubleClickTimeout.current); // 防止双击之后再次触发单击事件
 			lastTouchEnd.current = 0; // 重置 lastTouchEnd 防止多次触发
 		} else {
@@ -112,7 +114,7 @@ const Controller = memo(function () {
 			<div
 				className={styles.controllerMask}
 				style={{cursor: isControl ? 'pointer' : 'none'}}
-				onClick={!isMobile ? handleChangePlayState : undefined}
+				onClick={!isMobile ? changePlayState : undefined}
 				onTouchStart={handleTouchStart}
 				onTouchEnd={handleTouched}
 			>
@@ -122,7 +124,7 @@ const Controller = memo(function () {
 							<SvgIcon
 								iconClass={'player'}
 								fill={'#fff'}
-								fontSize={isMobile ? '2em' : '55px'}
+								fontSize={isMobile ? '2em' : '3.5rem'}
 								className={styles.pauseIcon}
 								style={pausePosition}
 							/>
@@ -134,7 +136,7 @@ const Controller = memo(function () {
 							<SvgIcon
 								iconClass={'loading'}
 								fill={theme ? theme : defaultTheme}
-								fontSize={isMobile ? '2em' : '55px'}
+								fontSize={isMobile ? '2em' : '3.5rem'}
 								className={styles.waitingIcon}
 							/>
 					)

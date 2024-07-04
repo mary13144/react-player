@@ -1,22 +1,23 @@
-@import "src/assets/mixin";
+@import "src/assets/css/mixin";
+@import "src/assets/css/var";
 
 .controller-container {
 	@include wh(100%, 100%);
 	position: relative;
-	z-index: 3;
+	z-index: $third-top-layer;
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;
 
 	.progress-controls-container {
-		width: calc(100% - 26px);
-		z-index: 102;
+		width: calc(100% - $container-gap);
+		z-index: $second-top-layer;
 	}
 
 	.controller-mask {
-		@include wh(100%, calc(100% - 47px));
+		@include wh(100%, calc(100% - $container-height));
 		@include position(absolute, 0, auto, auto, 0);
-		z-index: 101;
+		z-index: $second-top-layer;
 		outline: none;
 		cursor: pointer;
 

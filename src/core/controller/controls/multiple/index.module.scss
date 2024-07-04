@@ -1,33 +1,36 @@
-@import "../../../../assets/mixin";
-.multiple-container{
+@import "../../../../assets/css/mixin";
+
+.multiple-container {
 	position: relative;
 	height: 100%;
+	width: 2rem;
 	display: flex;
 	align-items: center;
-	.multiple-text{
-		font-size: 15px;
+
+	.multiple-text {
+		font-size: 1rem;
 		font-weight: bold;
 		text-align: center;
 		transform: translateX(-50%);
 	}
-	.multiple-select-container{
-		padding: 0 0 30px 0;
-		background-color: transparent;
-		transition: all 0.5s ease;
-		@include position(absolute,auto,auto,30px,auto);
-		transform: translateX(-50%);
-		z-index: 999;
-		.multiple-select-list{
-			padding: 5px 0;
+
+	.multiple-select-container {
+		@include multifunction-item;
+
+		.multiple-select-list {
+			padding: 0.3125rem 0;
 			list-style: none;
-			width: 60px;
+			width: 3.75rem;
 			background-color: rgba(0, 0, 0, 0.7);
-			border-radius: 5px;
+			border-radius: 0.3125rem;
 			text-align: center;
-			.multiple-select-item{
-				padding: 10px 10px;
-				font-size: 14px;
-				&:hover{
+
+			.multiple-select-item {
+				padding: 0.625rem;
+				font-size: 0.9rem;
+				text-align: center;
+
+				&:hover {
 					transform: scale(1.1);
 				}
 			}

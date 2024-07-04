@@ -1,8 +1,8 @@
-@import 'src/assets/mixin';
+@import '../../../assets/css/mixin';
 
 .controls-container {
 	transition: all 0.5s;
-	@include wh(100%, 42px);
+	@include wh(100%, 2.68rem);
 	color: rgb(238, 238, 238);
 	display: flex;
 	align-items: center;
@@ -13,7 +13,7 @@
 		display: flex;
 
 		.multifunction-item {
-			margin: 0 10px;
+			margin: 0 0.625rem;
 		}
 
 		.controls-icon {

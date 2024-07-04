@@ -1,47 +1,48 @@
-@import "src/assets/mixin";
-.set-container{
+@import "src/assets/css/mixin";
+
+.set-container {
 	position: relative;
 	height: 100%;
 	display: flex;
 	align-items: center;
-	&:hover{
-		.set-icon{
+
+	&:hover {
+		.set-icon {
 			animation: setHover 0.5s ease;
 		}
 	}
-	.set-icon-container{
-		font-size: 15px;
+
+	.set-icon-container {
+		font-size: 1rem;
 		font-weight: bold;
 		text-align: center;
 		transform: translateX(-50%);
 	}
-	.set-item-container{
-		padding: 0 0 30px 0;
-		background-color: transparent;
-		transition: all 0.5s ease;
-		@include position(absolute,auto,auto,30px,auto);
-		transform: translateX(-50%);
-		z-index: 999;
-		.set-item-list{
-			padding: 5px 0;
+
+	.set-item-container {
+		@include multifunction-item;
+
+		.set-item-list {
+			padding: 0.3125rem 0;
 			list-style: none;
-			width: 110px;
+			width: 6.85rem;
 			background-color: rgba(0, 0, 0, 0.7);
-			border-radius: 5px;
+			border-radius: 0.3125rem;
 			text-align: center;
-			.set-item{
-				margin: 10px 15px;
-				font-size: 14px;
+
+			.set-item {
+				margin: 0.625rem 1rem;
+				font-size: 0.8rem;
 			}
 		}
 	}
 }
 
 @keyframes setHover {
-	from{
+	from {
 		transform: rotate(270deg);
 	}
-	to{
+	to {
 		transform: rotate(360deg);
 	}
 }

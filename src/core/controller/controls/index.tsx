@@ -126,7 +126,10 @@ const Controls = memo(function () {
 	return (
 		<div
 			className={styles.controlsContainer}
-			style={{opacity: videoState?.isControl ? '1' : '0'}}
+			style={{
+				opacity: videoState?.isControl ? '1' : '0',
+				visibility: videoState?.isControl ? 'visible' : 'hidden'
+			}}
 		>
 			<Monitor/>
 			<div className={styles.multifunctionContainer}>
@@ -166,7 +169,7 @@ const Controls = memo(function () {
 								<SvgIcon
 									iconClass={'screenshots'}
 									fill={'#fff'}
-									fontSize={'20px'}
+									fontSize={'1.25rem'}
 									className={styles.controlsIcon}
 									onClick={handleScreenshot}
 								/>
@@ -181,7 +184,7 @@ const Controls = memo(function () {
 								<SvgIcon
 									iconClass={'inPicture'}
 									fill={'#fff'}
-									fontSize={'20px'}
+									fontSize={'1.25rem'}
 									className={styles.controlsIcon}
 									onClick={handleInPicture}
 								/>
@@ -196,7 +199,7 @@ const Controls = memo(function () {
 								<SvgIcon
 									iconClass={isFullWebScreenIcon}
 									fill={'#fff'}
-									fontSize={'20px'}
+									fontSize={'1.25rem'}
 									className={styles.controlsIcon}
 									onClick={handleFullWebScreen}
 								/>
@@ -211,7 +214,7 @@ const Controls = memo(function () {
 								<SvgIcon
 									iconClass={isFullScreenIcon}
 									fill={'#fff'}
-									fontSize={'20px'}
+									fontSize={'1.25rem'}
 									className={styles.controlsIcon}
 									onClick={handleFullScreen}
 								/>
@@ -220,7 +223,7 @@ const Controls = memo(function () {
 							<SvgIcon
 								iconClass={isFullScreenIcon}
 								fill={'#fff'}
-								fontSize={'20px'}
+								fontSize={'1.25rem'}
 								className={styles.controlsIcon}
 								onClick={handleFullScreen}
 							/>

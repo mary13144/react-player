@@ -2,26 +2,21 @@ import {VideoAttributes, VideoCallBack} from "@/types";
 import {VideoStateType} from "./useVideoState.ts";
 import {useEffect} from "react";
 
-export default function useVideoCallBack(videoAttributes: VideoAttributes, videoState: VideoStateType, handle: Partial<VideoCallBack>) {
+export default function useVideoCallBack(videoAttributes: VideoAttributes, videoState: VideoStateType, callback?: Partial<VideoCallBack>) {
 	const {
 		isControl,
 		quality,
 	} = videoState
 
-	const {
-		onQualityChange,
-		onIsControl,
-	} = handle
-
 	useEffect(() => {
 		if (quality) {
-			onQualityChange?.(videoAttributes!)
+			callback?.onQualityChange?.(videoAttributes)
 		}
 	}, [quality]);
 
 	useEffect(() => {
 		if (isControl) {
-			onIsControl?.(videoAttributes!)
+			callback?.onIsControl?.(videoAttributes)
 		}
 	}, [isControl]);
 }

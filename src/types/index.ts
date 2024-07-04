@@ -1,8 +1,19 @@
-import {ReactNode} from "react";
+import {CSSProperties, ReactNode} from "react";
 import {QualityList} from "src/core/controller/controls/quality";
 import {ToastPosition} from "@/components/toast";
 
 export type VideoSrcType = 'hls' | 'h264';
+
+/**
+ *  @description 支持的HTTP传输对象类别(Content-Type)
+ */
+export const supportTypes = [
+	'video/mp4',
+	'video/webm',
+	'video/ogg',
+	'application/vnd.apple.mpegurl',
+	'application/x-mpegurl',
+];
 
 export type NoParVoid = () => void;
 export type ParVoid<T> = (par: T) => void
@@ -15,10 +26,6 @@ export interface QualityConfig {
 	qualityList: QualityList[];
 }
 
-/**
- * @description 视频缩放模式
- */
-export type ScaleMode = 'scaleToFill' | 'widthFix' | 'heightFix';
 /**
  * @description 暂停键位置
  */
@@ -39,11 +46,19 @@ export interface VideoPlayerOptions {
 	/**
 	 * @description 视频容器的width
 	 */
-	width?: number;
+	width?: number | string;
 	/**
 	 * @description 视频容器的height
 	 */
-	height?: number;
+	height?: number | string;
+	/**
+	 * @description 视频容器styles
+	 */
+	style?: CSSProperties;
+	/**
+	 * @description 视频容器className
+	 */
+	className?: string
 	/**
 	 * @description 视频播放地址
 	 */
@@ -57,10 +72,6 @@ export interface VideoPlayerOptions {
 	 */
 	videoType?: VideoSrcType;
 	/**
-	 * @description 视频缩放模式
-	 */
-	mode?: ScaleMode;
-	/**
 	 * @description 主题
 	 */
 	theme?: string;
@@ -68,6 +79,10 @@ export interface VideoPlayerOptions {
 	 * @description 视频封面图
 	 */
 	poster?: string,
+	/**
+	 * @description 是否循环播放
+	 */
+	loop?: boolean,
 	/**
 	 * @description 自定义视频结束时显示的内容
 	 */
@@ -228,7 +243,11 @@ export interface VideoMethod {
 	/**
 	 * @description 设置静音
 	 */
-	setMuted: ParVoid<boolean>
+	setMuted: ParVoid<boolean>,
+	/**
+	 * @description 改变播放状态
+	 */
+	changePlayState: NoParVoid
 }
 
 /**
@@ -275,5 +294,9 @@ export interface VideoCallBack<T = CallBackType> {
 	 * @description 调整播放倍数回调函数
 	 */
 	onRateChange: T
+	/**
+	 * @description 视频缓冲回调函数
+	 */
+	onWaiting: T
 }
 

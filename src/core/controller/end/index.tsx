@@ -21,7 +21,7 @@ const End = memo((props: EndProps) => {
 				<SvgIcon
 					iconClass={'replay'}
 					fill={'#fff'}
-					fontSize={'50px'}
+					fontSize={'3.2rem'}
 					className={styles.replayIcon}
 					onClick={handleClick}
 				/>

@@ -1,48 +1,53 @@
-@import "../../../../assets/mixin";
-.volume-container{
+@import "src/assets/css/mixin";
+@import "src/assets/css/var";
+
+.volume-container {
 	position: relative;
 	height: 100%;
 	display: flex;
 	align-items: center;
-	.volume-icon{
+
+	.volume-icon {
 		text-align: center;
 		transform: translateX(-50%);
 	}
-	.volume-set-container{
-		padding: 0 0 30px 0;
-		background-color: transparent;
-		transition: all 0.5s ease;
-		@include position(absolute,auto,auto,30px,auto);
-		transform: translateX(-50%);
-		z-index: 999;
-		.volume-set{
-			padding: 10px 0;
+
+	.volume-set-container {
+		@include multifunction-item;
+
+		.volume-set {
+			padding: 0.625rem 0;
 			background-color: rgba(0, 0, 0, 0.7);
-			width: 40px;
-			border-radius: 10px;
+			width: 2.5rem;
+			border-radius: 0.625rem;
 			text-align: center;
-			.volume-number{
-				font-size: 14px;
+
+			.volume-number {
+				font-size: 0.85rem;
 			}
-			.volume-slider-container{
-				@include wh(100%,120px);
+
+			.volume-slider-container {
+				@include wh(100%, 7.5rem);
 				position: relative;
-				margin: 10px 0;
-				.volume-slider-bg{
-					@include position(absolute,auto,auto,0,50%);
+				margin: 0.625rem 0;
+
+				.volume-slider-bg {
+					@include position(absolute, auto, auto, 0, 50%);
 					transform: translateX(-50%);
-					@include wh(3px,100%);
+					@include wh(0.1875rem, 100%);
 					background-color: #ffffff;
-					border-radius: 2px;
+					border-radius: 0.125rem;
 				}
-				.volume-slider-number{
-					@include position(absolute,auto,auto,0,50%);
+
+				.volume-slider-number {
+					@include position(absolute, auto, auto, 0, 50%);
 					transform: translateX(-50%);
-					width: 3px;
-					border-radius: 2px;
-					.volume-slider-circle{
-						@include wh(10px,10px);
-						@include position(absolute,-5px,auto,auto,50%);
+					width: 0.1875rem;
+					border-radius: 0.125rem;
+
+					.volume-slider-circle {
+						@include wh(0.625rem, 0.625rem);
+						@include position(absolute, -0.3125rem, auto, auto, 50%);
 						transform: translateX(-50%);
 						border-radius: 50%;
 					}

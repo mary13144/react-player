@@ -6,7 +6,8 @@ import {transToMinutesAndSeconds} from "@/core/utils";
 
 const Monitor = memo(() => {
 
-	const {videoAttributes, handleChangePlayState} = useContext(VideoContext)
+	const {videoAttributes, videoMethod} = useContext(VideoContext)
+	const {changePlayState} = videoMethod!
 	const {isPlay, currentTime, duration} = videoAttributes!
 
 	return (
@@ -15,7 +16,7 @@ const Monitor = memo(() => {
 				iconClass={!isPlay ? 'player' : 'pause'}
 				fill={'#fff'}
 				fontSize={'20px'}
-				onClick={handleChangePlayState}
+				onClick={changePlayState}
 				className={styles.icon}
 			/>
 			<span className={styles.timeContainer}>

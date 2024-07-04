@@ -177,9 +177,9 @@ select {
 	right: 0;
 	top: 0;
 	bottom: 0;
-	z-index: 100000 !important;
+	z-index: 9999999 !important;
 }
 
 .full-screen-space {
-	margin: 0 20px !important;
+	margin: 0 1.25rem !important;
 }

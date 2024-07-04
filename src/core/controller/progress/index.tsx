@@ -28,16 +28,16 @@ const Progress: FC = memo(() => {
 	const [PositionX, setPositionX] = useState<number>(0)
 
 	const handleMouseEnter = () => {
-		progressBgRef.current.style.height = '7px'
+		progressBgRef.current.style.height = '0.4rem'
 		progressCircleRef.current.style.opacity = '1'
-		progressCircleRef.current.style.animation = 'enter'
+		progressCircleRef.current.style.visibility = 'visible'
 		setInProgress(true)
 	}
 
 	const handleMouseLeave = () => {
-		progressBgRef.current.style.height = '3px'
+		progressBgRef.current.style.height = '0.2rem'
 		progressCircleRef.current.style.opacity = '0'
-		progressCircleRef.current.style.animation = 'leave'
+		progressCircleRef.current.style.visibility = 'hidden'
 		setInProgress(false)
 	}
 
@@ -101,7 +101,10 @@ const Progress: FC = memo(() => {
 	return (
 		<div
 			className={styles.progressContainer}
-			style={{opacity: videoState?.isControl ? '1' : '0'}}
+			style={{
+				opacity: videoState?.isControl ? '1' : '0',
+				visibility: videoState?.isControl ? 'visible' : 'hidden'
+			}}
 		>
 			<div className={styles.progressBg} ref={progressBgRef}>
 				<div className={styles.progressBuffered} style={{width: calcBufferedPercent}}></div>
@@ -132,13 +135,13 @@ const Progress: FC = memo(() => {
 							>
 								<div
 									className={styles.tooltipTop}
-									style={{borderTop: `4px solid ${videoOption?.theme ? videoOption.theme : defaultTheme}`}}
+									style={{borderTop: `0.25rem solid ${videoOption?.theme ? videoOption.theme : defaultTheme}`}}
 								>
 
 								</div>
 								<div
 									className={styles.tooltipBottom}
-									style={{borderBottom: `4px solid ${videoOption?.theme ? videoOption.theme : defaultTheme}`}}
+									style={{borderBottom: `0.25rem solid ${videoOption?.theme ? videoOption.theme : defaultTheme}`}}
 								>
 
 								</div>
