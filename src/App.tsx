@@ -44,7 +44,7 @@ function App() {
 						isShowSet: true,
 						width: 1000,
 						height: 800,
-						toastPosition: 'rightBottom'
+						crossOrigin: 'anonymous'
 					}}
 				/>
 			</div>

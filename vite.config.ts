@@ -24,9 +24,4 @@ export default defineConfig({
 			localsConvention: 'camelCase', // 可选，使用驼峰命名法
 		},
 	},
-	server: {
-		headers: {
-			'Cache-Control': 'no-cache',
-		},
-	},
 })

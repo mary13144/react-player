@@ -30,12 +30,14 @@ const Set = memo((props: SetProps) => {
 	const handleLightOff = (status: boolean) => {
 		if (lightOffMaskEle) {
 			lightOffMaskEle.style.display = !status ? 'block' : 'none';
+			localStorage.setItem('light', !status ? 'block' : 'none')
 		}
 	}
 
 	const handleLoop = (status: boolean) => {
 		if (videoELe) {
 			videoELe.loop = !status;
+			localStorage.setItem('loop', !status ? 'true' : 'false')
 		}
 	}
 
@@ -54,10 +56,12 @@ const Set = memo((props: SetProps) => {
 			>
 				<ul className={styles.setItemList}>
 					<li className={styles.setItem}>
-						<Switch label={i18n(language, 'light')} theme={theme} onChange={handleLightOff}/>
+						<Switch valueInit={localStorage.getItem('light') === 'block'} label={i18n(language, 'light')}
+								theme={theme} onChange={handleLightOff}/>
 					</li>
 					<li className={styles.setItem}>
-						<Switch label={i18n(language, 'loop')} theme={theme} onChange={handleLoop}/>
+						<Switch valueInit={localStorage.getItem('loop') === 'true'} label={i18n(language, 'loop')}
+								theme={theme} onChange={handleLoop}/>
 					</li>
 				</ul>
 			</div>

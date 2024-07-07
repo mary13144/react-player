@@ -4,11 +4,19 @@ import useUpdate from "@/core/hooks/useUpdate.ts";
 import Hls from "hls.js";
 import {defaultVolume} from "@/core/config";
 
-const useVideo = (videoEle: HTMLVideoElement, option: VideoPlayerOptions, callback?: Partial<VideoCallBack>) => {
+const useVideo = (videoEle: HTMLVideoElement, maskEle: HTMLDivElement, option: VideoPlayerOptions, callback?: Partial<VideoCallBack>) => {
 
 	const vRef = useRef<HTMLVideoElement>(videoEle)
 
-	vRef.current = videoEle // 获取最新对象
+	useEffect(() => {
+		vRef.current = videoEle // 获取最新对象
+	}, [videoEle]);
+
+	const maskRef = useRef<HTMLDivElement>(maskEle)
+
+	useEffect(() => {
+		maskRef.current = maskEle // 获取最新对象
+	}, [maskEle]);
 
 	const videoAttributes = useRef<VideoAttributes>({
 		bufferedTime: 0,
@@ -84,43 +92,41 @@ const useVideo = (videoEle: HTMLVideoElement, option: VideoPlayerOptions, callba
 		updateVideoState({isWaiting: false, isPlay: !vRef.current?.paused})
 	}
 
-	useEffect(() => {
-		if (!vRef.current) {
-			forceUpdate()
+	const videoInit = (videoELe: HTMLVideoElement) => {
+		if (!videoELe) {
 			return
 		}
-		vRef.current.addEventListener('loadedmetadata', handleLoadedMetaData)
-		vRef.current.addEventListener('play', handlePlay)
-		vRef.current.addEventListener('playing', handlePlaying)
-		vRef.current.addEventListener('pause', handlePause)
-		vRef.current.addEventListener('waiting', handleWaiting)
-		vRef.current.addEventListener('enterpictureinpicture', handleEnterPicture)
-		vRef.current.addEventListener('leavepictureinpicture', handleLeavePicture)
-		vRef.current.addEventListener('error', handleError)
-		vRef.current.addEventListener('volumechange', handleVolumeChange)
-		vRef.current.addEventListener('progress', handleBufferedTime)
-		vRef.current.addEventListener('ratechange', handleRateChange)
-		vRef.current.addEventListener('ended', handleEnd)
-		timer.current = setInterval(() => {
-			updateVideoState({currentTime: vRef.current.currentTime})
-		}, 10)
-		return () => {
-			vRef.current.removeEventListener('loadedmetadata', handleLoadedMetaData)
-			vRef.current.removeEventListener('play', handlePlay)
-			vRef.current.removeEventListener('playing', handlePlaying)
-			vRef.current.removeEventListener('pause', handlePause)
-			vRef.current.removeEventListener('waiting', handleWaiting)
-			vRef.current.removeEventListener('enterpictureinpicture', handleEnterPicture)
-			vRef.current.removeEventListener('leavepictureinpicture', handleLeavePicture)
-			vRef.current.removeEventListener('error', handleError)
-			vRef.current.removeEventListener('volumechange', handleVolumeChange)
-			vRef.current.removeEventListener('progress', handleBufferedTime)
-			vRef.current.removeEventListener('ratechange', handleRateChange)
-			vRef.current.removeEventListener('ended', handleEnd)
-			timer && clearTimeout(timer.current)
-		}
+		videoELe.addEventListener('loadedmetadata', handleLoadedMetaData)
+		videoELe.addEventListener('play', handlePlay)
+		videoELe.addEventListener('playing', handlePlaying)
+		videoELe.addEventListener('pause', handlePause)
+		videoELe.addEventListener('waiting', handleWaiting)
+		videoELe.addEventListener('enterpictureinpicture', handleEnterPicture)
+		videoELe.addEventListener('leavepictureinpicture', handleLeavePicture)
+		videoELe.addEventListener('error', handleError)
+		videoELe.addEventListener('volumechange', handleVolumeChange)
+		videoELe.addEventListener('progress', handleBufferedTime)
+		videoELe.addEventListener('ratechange', handleRateChange)
+		videoELe.addEventListener('ended', handleEnd)
+	}
 
-	}, [vRef.current]);
+	const videoUnmount = (videoELe: HTMLVideoElement) => {
+		if (!videoELe) {
+			return
+		}
+		videoELe.removeEventListener('loadedmetadata', handleLoadedMetaData)
+		videoELe.removeEventListener('play', handlePlay)
+		videoELe.removeEventListener('playing', handlePlaying)
+		videoELe.removeEventListener('pause', handlePause)
+		videoELe.removeEventListener('waiting', handleWaiting)
+		videoELe.removeEventListener('enterpictureinpicture', handleEnterPicture)
+		videoELe.removeEventListener('leavepictureinpicture', handleLeavePicture)
+		videoELe.removeEventListener('error', handleError)
+		videoELe.removeEventListener('volumechange', handleVolumeChange)
+		videoELe.removeEventListener('progress', handleBufferedTime)
+		videoELe.removeEventListener('ratechange', handleRateChange)
+		videoELe.removeEventListener('ended', handleEnd)
+	}
 
 
 	/**
@@ -130,6 +136,7 @@ const useVideo = (videoEle: HTMLVideoElement, option: VideoPlayerOptions, callba
 	const setVolume: ParVoid<number> = (val) => {
 		if (vRef.current) {
 			vRef.current.volume = val <= 1 ? val : val / 100;
+			localStorage.setItem('volume', vRef.current.volume.toString())
 		}
 	}
 
@@ -160,6 +167,7 @@ const useVideo = (videoEle: HTMLVideoElement, option: VideoPlayerOptions, callba
 			setPlayRate: (rate: number) => {
 				if (vRef.current) {
 					vRef.current.playbackRate = rate
+					localStorage.setItem('playRate', rate.toString())
 				}
 			},
 			setMuted: (flag: boolean) => {
@@ -255,22 +263,50 @@ const useVideo = (videoEle: HTMLVideoElement, option: VideoPlayerOptions, callba
 		}
 	}
 
+	/**
+	 * @description 加载localstorage中的配置，防止刷新重置
+	 */
+	const loadOptions = (videoELe: HTMLVideoElement, videoMaskEle: HTMLDivElement) => {
+		const curVolume = localStorage.getItem('volume')
+		const curLight = localStorage.getItem('light')
+		const curLoop = localStorage.getItem('loop')
+		const curRate = localStorage.getItem('playRate')
+		if (curVolume) {
+			videoELe.volume = parseFloat(curVolume)
+		} else {
+			videoELe.volume = defaultVolume / 100
+		}
+		if (curLight) {
+			videoMaskEle.style.display = curLight
+		}
+		if (curLoop) {
+			videoELe.loop = curLoop === 'true'
+		}
+		if (curRate) {
+			videoELe.playbackRate = parseFloat(curRate)
+		}
+	}
+
 	useEffect(() => {
-		if (!vRef.current)
-			return;
-		const src = option.videoSrc ? option.videoSrc : option.qualityConfig?.qualityList.find(item => {
-			return item.key === option.qualityConfig?.currentKey
-		})?.url
-		if (!src)
+		if (!vRef.current || !maskRef.current) {
+			forceUpdate()
 			return
-		loadVideo(vRef.current, src).then(() => {
-			videoMethod.setVolume(defaultVolume)
-		})
-	}, [vRef.current, option.videoSrc, option.videoType, JSON.stringify(option.qualityConfig)]);
+		}
+		videoInit(vRef.current)
+		timer.current = setInterval(() => {
+			updateVideoState({currentTime: vRef.current.currentTime})
+		}, 10)
+		loadOptions(vRef.current, maskRef.current)
+		return () => {
+			videoUnmount(vRef.current)
+			timer && clearTimeout(timer.current)
+		}
+	}, [vRef.current]);
 
 	return {
 		videoAttributes: videoAttributes.current,
-		videoMethod: videoMethod,
+		videoMethod,
+		loadVideo,
 	}
 }
 

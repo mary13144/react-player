@@ -1,6 +1,6 @@
 import {VideoAttributes, VideoCallBack, VideoMethod, VideoPlayerOptions} from "@/types";
 import {
-	forwardRef,
+	forwardRef, useEffect,
 	useImperativeHandle,
 	useMemo,
 	useRef
@@ -58,11 +58,27 @@ export const ReactPlayer = forwardRef<ReactPlayer, VideoProps>((props, ref) => {
 
 	const {setSize} = useSetSize(videoContainerRef.current!, videoRef.current!, option)
 
-	const {videoAttributes, videoMethod} = useVideo(videoRef.current!, option, callback)
+	const {
+		videoAttributes,
+		videoMethod,
+		loadVideo,
+	} = useVideo(videoRef.current!, lightOffMaskRef.current!, option, callback)
 	/**
 	 * @description 执行用户回调
 	 */
 	useVideoCallBack(videoAttributes, videoState, callback)
+
+	useEffect(() => {
+		if (!videoRef.current || !lightOffMaskRef.current) {
+			return;
+		}
+		const src = option.videoSrc ? option.videoSrc : option.qualityConfig?.qualityList.find(item => {
+			return item.key === option.qualityConfig?.currentKey
+		})?.url
+		if (!src)
+			return
+		loadVideo(videoRef.current, src)
+	}, [videoRef.current, lightOffMaskRef.current, option.videoSrc, option.videoType, JSON.stringify(option.qualityConfig)]);
 
 	const videoContext: VideoContextType = useMemo(() => {
 		return {
