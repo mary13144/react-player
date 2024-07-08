@@ -1,10 +1,9 @@
-import {useReducer} from "react";
+import { useReducer } from 'react';
 
-const useUpdate = ()=>{
+const useUpdate = () => {
+    const [, forceUpdate] = useReducer((v) => v + 1, 0);
 
-	const [,forceUpdate] = useReducer(v=>v+1,0)
+    return forceUpdate;
+};
 
-	return forceUpdate
-}
-
-export default useUpdate
+export default useUpdate;

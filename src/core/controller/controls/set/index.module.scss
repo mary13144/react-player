@@ -1,48 +1,48 @@
-@import "src/assets/css/mixin";
+@import 'src/assets/css/mixin';
 
 .set-container {
-	position: relative;
-	height: 100%;
-	display: flex;
-	align-items: center;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
 
-	&:hover {
-		.set-icon {
-			animation: setHover 0.5s ease;
-		}
-	}
+    &:hover {
+        .set-icon {
+            animation: setHover 0.5s ease;
+        }
+    }
 
-	.set-icon-container {
-		font-size: 1rem;
-		font-weight: bold;
-		text-align: center;
-		transform: translateX(-50%);
-	}
+    .set-icon-container {
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+        transform: translateX(-50%);
+    }
 
-	.set-item-container {
-		@include multifunction-item;
+    .set-item-container {
+        @include multifunction-item;
 
-		.set-item-list {
-			padding: 0.3125rem 0;
-			list-style: none;
-			width: 6.85rem;
-			background-color: rgba(0, 0, 0, 0.7);
-			border-radius: 0.3125rem;
-			text-align: center;
+        .set-item-list {
+            padding: 0.3125rem 0;
+            list-style: none;
+            width: 6.85rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 0.3125rem;
+            text-align: center;
 
-			.set-item {
-				margin: 0.625rem 1rem;
-				font-size: 0.8rem;
-			}
-		}
-	}
+            .set-item {
+                margin: 0.625rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    }
 }
 
 @keyframes setHover {
-	from {
-		transform: rotate(270deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
+    from {
+        transform: rotate(270deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

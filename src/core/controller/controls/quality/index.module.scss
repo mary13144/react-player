@@ -1,39 +1,38 @@
-@import "src/assets/css/mixin";
+@import 'src/assets/css/mixin';
 
 .quality-container {
-	position: relative;
-	height: 100%;
-	width: 2rem;
-	display: flex;
-	align-items: center;
+    position: relative;
+    height: 100%;
+    width: 2rem;
+    display: flex;
+    align-items: center;
 
-	.quality-text {
-		font-size: 1rem;
-		text-align: center;
-		transform: translateX(-50%);
-	}
+    .quality-text {
+        font-size: 1rem;
+        text-align: center;
+        transform: translateX(-50%);
+    }
 
-	.quality-select-container {
-		@include multifunction-item;
+    .quality-select-container {
+        @include multifunction-item;
 
-		.quality-select-list {
-			padding: 0.3125rem 0;
-			list-style: none;
-			width: 4.375rem;
-			background-color: rgba(0, 0, 0, 0.7);
-			border-radius: 0.3125rem;
-			text-align: center;
+        .quality-select-list {
+            padding: 0.3125rem 0;
+            list-style: none;
+            width: 4.375rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 0.3125rem;
+            text-align: center;
 
-			.quality-select-item {
-				padding: 0.625rem;
-				font-size: 0.9rem;
-				text-align: center;
+            .quality-select-item {
+                padding: 0.625rem;
+                font-size: 0.9rem;
+                text-align: center;
 
-				&:hover {
-					transform: scale(1.1);
-				}
-			}
-		}
-	}
-
+                &:hover {
+                    transform: scale(1.1);
+                }
+            }
+        }
+    }
 }

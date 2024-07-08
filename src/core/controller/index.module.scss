@@ -1,34 +1,34 @@
-@import "src/assets/css/mixin";
-@import "src/assets/css/var";
+@import 'src/assets/css/mixin';
+@import 'src/assets/css/var';
 
 .controller-container {
-	@include wh(100%, 100%);
-	position: relative;
-	z-index: $third-top-layer;
-	display: flex;
-	justify-content: center;
-	align-items: flex-end;
+    @include wh(100%, 100%);
+    position: relative;
+    z-index: $third-top-layer;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 
-	.progress-controls-container {
-		width: calc(100% - $container-gap);
-		z-index: $second-top-layer;
-	}
+    .progress-controls-container {
+        width: calc(100% - $container-gap);
+        z-index: $second-top-layer;
+    }
 
-	.controller-mask {
-		@include wh(100%, calc(100% - $container-height));
-		@include position(absolute, 0, auto, auto, 0);
-		z-index: $second-top-layer;
-		outline: none;
-		cursor: pointer;
+    .controller-mask {
+        @include wh(100%, calc(100% - $container-height));
+        @include position(absolute, 0, auto, auto, 0);
+        z-index: $second-top-layer;
+        outline: none;
+        cursor: pointer;
 
-		.pause-icon {
-			position: absolute;
-			opacity: 0.7;
-		}
+        .pause-icon {
+            position: absolute;
+            opacity: 0.7;
+        }
 
-		.waiting-icon {
-			@include position(absolute, 50%, auto, auto, 50%);
-			transform: translate(-50%, -50%);
-		}
-	}
+        .waiting-icon {
+            @include position(absolute, 50%, auto, auto, 50%);
+            transform: translate(-50%, -50%);
+        }
+    }
 }

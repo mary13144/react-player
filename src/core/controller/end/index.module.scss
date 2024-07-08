@@ -1,29 +1,29 @@
-@import "src/assets/css/mixin";
-@import "src/assets/css/var";
+@import 'src/assets/css/mixin';
+@import 'src/assets/css/var';
 
 .end-container {
-	@include position(absolute, 0, 0, 0, 0);
-	z-index: $top-layer;
-	cursor: default;
-	background-color: rgba(0, 0, 0, 1);
+    @include position(absolute, 0, 0, 0, 0);
+    z-index: $top-layer;
+    cursor: default;
+    background-color: rgba(0, 0, 0, 1);
 
-	.end-replay {
-		@include position(absolute, 50%, 0, 0, 50%);
-		transform: translate(-50%, -50%);
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
+    .end-replay {
+        @include position(absolute, 50%, 0, 0, 50%);
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
 
-		.replay-icon {
-			cursor: pointer;
-		}
+        .replay-icon {
+            cursor: pointer;
+        }
 
-		.replay-text {
-			margin-top: 0.75rem;
-			color: #ffffff;
-			font-size: 1.5rem;
-			font-weight: bold;
-		}
-	}
+        .replay-text {
+            margin-top: 0.75rem;
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    }
 }

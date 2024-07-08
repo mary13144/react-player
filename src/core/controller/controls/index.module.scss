@@ -1,34 +1,35 @@
-@import '../../../assets/css/mixin';
-
+@import 'src/assets/css/mixin';
+@import "src/assets/css/var";
 .controls-container {
-	transition: all 0.5s;
-	@include wh(100%, 2.68rem);
-	color: rgb(238, 238, 238);
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+    transition: all 0.5s;
+    @include wh(100%, 2.68rem);
+    color: rgb(238, 238, 238);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-	.multifunction-container {
-		cursor: pointer;
-		display: flex;
+    .multifunction-container {
+        cursor: pointer;
+        display: flex;
 
-		.multifunction-item {
-			margin: 0 0.625rem;
-		}
+        .multifunction-item {
+            margin: 0 0.625rem;
+            z-index:$top-layer;
+        }
 
-		.controls-icon {
-			&:hover {
-				animation: scaleAnimate 0.5s ease;
-			}
-		}
-	}
+        .controls-icon {
+            &:hover {
+                animation: scaleAnimate 0.5s ease;
+            }
+        }
+    }
 }
 
 @keyframes scaleAnimate {
-	50% {
-		transform: scale(1.2);
-	}
-	100% {
-		transform: scale(1);
-	}
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
 }

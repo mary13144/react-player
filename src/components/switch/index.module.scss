@@ -1,36 +1,36 @@
-@import "../../assets/css/mixin";
+@import '../../assets/css/mixin';
 
 .switch-container {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
 
-	.switch-label {
-		cursor: pointer;
-		font-size: 1rem;
-	}
+    .switch-label {
+        cursor: pointer;
+        font-size: 1rem;
+    }
 
-	.switch {
-		cursor: pointer;
-		position: relative;
-		@include wh(2rem, 1rem);
-		border-radius: 2rem;
-		border: none;
-		outline: none;
-		-webkit-appearance: none;
+    .switch {
+        cursor: pointer;
+        position: relative;
+        @include wh(2rem, 1rem);
+        border-radius: 2rem;
+        border: none;
+        outline: none;
+        -webkit-appearance: none;
 
-		&::after {
-			content: '';
-			@include wh(50%, 100%);
-			@include position(absolute, 0, auto, auto, 0);
-			background-color: #ffffff;
-			border-radius: 50%;
-			transition: all 0.5s ease;
-		}
+        &::after {
+            content: '';
+            @include wh(50%, 100%);
+            @include position(absolute, 0, auto, auto, 0);
+            background-color: #ffffff;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
 
-		&:checked::after {
-			left: 50%;
-		}
-	}
+        &:checked::after {
+            left: 50%;
+        }
+    }
 }

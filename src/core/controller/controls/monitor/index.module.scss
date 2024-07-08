@@ -1,23 +1,20 @@
-
 .monitor-container {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 
-	.icon {
-		cursor: pointer;
-	}
+    .icon {
+        cursor: pointer;
+    }
 
-	.time-container {
-		font-size: 1rem;
-		vertical-align: middle;
-		padding: 0 0.6rem;
+    .time-container {
+        font-size: 1rem;
+        vertical-align: middle;
+        padding: 0 0.6rem;
 
-		.current-time {
+        .current-time {
+        }
 
-		}
-
-		.total-time {
-
-		}
-	}
+        .total-time {
+        }
+    }
 }

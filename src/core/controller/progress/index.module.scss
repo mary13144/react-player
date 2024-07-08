@@ -1,91 +1,90 @@
-@import "src/assets/css/mixin";
-@import "src/assets/css/var";
+@import 'src/assets/css/mixin';
+@import 'src/assets/css/var';
 
 .progress-container {
-	transition: all 0.5s;
-	width: 100%;
+    transition: all 0.5s;
+    width: 100%;
 
-	.progress-bg {
-		transition: all 0.3s;
-		@include wh(100%, $progress-height);
-		background-color: rgba(255, 255, 255, 0.2);
-		border-radius: 0.125rem;
-		position: relative;
+    .progress-bg {
+        transition: all 0.3s;
+        @include wh(100%, $progress-height);
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 0.125rem;
+        position: relative;
 
+        .progress-buffered {
+            @include wh(0, 100%);
+            @include position(absolute, 0, auto, auto, 0);
+            border-radius: 0.125rem;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: $bottom-layer;
+        }
 
-		.progress-buffered {
-			@include wh(0, 100%);
-			@include position(absolute, 0, auto, auto, 0);
-			border-radius: 0.125rem;
-			background: rgba(255, 255, 255, 0.7);
-			z-index: $bottom-layer;
-		}
+        .progress-played {
+            @include wh(0, 100%);
+            @include position(absolute, 0, auto, auto, 0);
+            border-radius: 0.125rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            z-index: $middle-layer;
 
-		.progress-played {
-			@include wh(0, 100%);
-			@include position(absolute, 0, auto, auto, 0);
-			border-radius: 0.125rem;
-			display: flex;
-			justify-content: flex-end;
-			align-items: center;
-			z-index: $middle-layer;
+            .progress-circle {
+                transition: all 0.3s;
+                transform: translateX(50%);
+                opacity: 0;
+                @include wh(0.8rem, 0.8rem);
+                border-radius: 50%;
+            }
+        }
 
-			.progress-circle {
-				transition: all 0.3s;
-				transform: translateX(50%);
-				opacity: 0;
-				@include wh(0.8rem, 0.8rem);
-				border-radius: 50%;
-			}
-		}
+        .progress-mask {
+            @include wh(100%, calc(100% + $progress-mask-gap));
+            @include position(absolute, -50%, auto, auto, 0);
+            z-index: $third-top-layer;
+            background-color: transparent;
 
-		.progress-mask {
-			@include wh(100%, calc(100% + $progress-mask-gap));
-			@include position(absolute, -50%, auto, auto, 0);
-			z-index: $third-top-layer;
-			background-color: transparent;
+            &:hover {
+                cursor: pointer;
+            }
+        }
 
-			&:hover {
-				cursor: pointer;
-			}
-		}
+        .progress-tooltip {
+            @include position(absolute, 0, auto, auto, 0);
 
-		.progress-tooltip {
-			@include position(absolute, 0, auto, auto, 0);
+            .tooltip-top,
+            .tooltip-bottom {
+                position: absolute;
+                @include wh(0, 0);
+                border-left: 0.25rem solid transparent;
+                border-right: 0.25rem solid transparent;
+                left: -0.25rem;
+            }
 
-			.tooltip-top, .tooltip-bottom {
-				position: absolute;
-				@include wh(0, 0);
-				border-left: 0.25rem solid transparent;
-				border-right: 0.25rem solid transparent;
-				left: -0.25rem;
-			}
+            .tooltip-top {
+                top: -0.3rem;
+                border-bottom: 0.25rem solid transparent;
+            }
 
-			.tooltip-top {
-				top: -0.3rem;
-				border-bottom: 0.25rem solid transparent;
-			}
+            .tooltip-bottom {
+                top: 0.3rem;
+                border-top: 0.25rem solid transparent;
+            }
+        }
 
-			.tooltip-bottom {
-				top: 0.3rem;
-				border-top: 0.25rem solid transparent;
-			}
-		}
+        .progress-timeTip {
+            @include position(absolute, -1.75rem, auto, auto, 0);
+            transform: translateX(-50%);
 
-		.progress-timeTip {
-			@include position(absolute, -1.75rem, auto, auto, 0);
-			transform: translateX(-50%);
-
-			.current-time {
-				height: 1.25rem;
-				padding: 0.2rem 0.4rem;
-				background-color: #222222;
-				font-size: 1rem;
-				color: #fff;
-				font-weight: bold;
-				border-radius: 0.2rem;
-			}
-		}
-	}
+            .current-time {
+                height: 1.25rem;
+                padding: 0.2rem 0.4rem;
+                background-color: #222222;
+                font-size: 1rem;
+                color: #fff;
+                font-weight: bold;
+                border-radius: 0.2rem;
+            }
+        }
+    }
 }
-

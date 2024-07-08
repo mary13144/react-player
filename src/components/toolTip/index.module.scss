@@ -1,26 +1,26 @@
-@import "../../assets/css/mixin";
+@import '../../assets/css/mixin';
 
 .toolTip-container {
-	position: relative;
-	cursor: pointer;
-	height: 100%;
-	display: flex;
-	align-items: center;
+    position: relative;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    align-items: center;
 
-	.toolTip-text {
-		transition: all 0.5s ease;
-		background-color: rgba(0, 0, 0, 0.7);
-		@include position(absolute, auto, auto, 3.75rem, auto);
-		transform: translateX(-50%);
-		white-space: nowrap;
-		padding: 0.5rem;
-		text-align: center;
-		border-radius: 0.3rem;
-		font-size: 1rem;
-	}
+    .toolTip-text {
+        transition: all 0.5s ease;
+        background-color: rgba(0, 0, 0, 0.7);
+        @include position(absolute, auto, auto, 3.75rem, auto);
+        transform: translateX(-50%);
+        white-space: nowrap;
+        padding: 0.5rem;
+        text-align: center;
+        border-radius: 0.3rem;
+        font-size: 1rem;
+    }
 
-	.toolTip-icon {
-		text-align: center;
-		transform: translateX(-50%);
-	}
+    .toolTip-icon {
+        text-align: center;
+        transform: translateX(-50%);
+    }
 }
