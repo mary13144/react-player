@@ -6,7 +6,8 @@ import {
     VideoPlayerOptions,
 } from '@/types';
 import {
-    forwardRef, useEffect,
+    forwardRef,
+    useEffect,
     useImperativeHandle,
     useMemo,
     useRef,
@@ -19,8 +20,8 @@ import Controller from './controller';
 import { VideoContext, VideoContextType } from '@/core/context';
 import useVideo from '@/core/hooks/useVideo.ts';
 import useSetSize from '@/core/hooks/useSetSize.ts';
-import "virtual:svg-icons-register";
-import useUpdate from "@/core/hooks/useUpdate.ts";
+import 'virtual:svg-icons-register';
+import useUpdate from '@/core/hooks/useUpdate.ts';
 
 export interface VideoProps {
     option: VideoPlayerOptions;
@@ -77,7 +78,6 @@ const ReactPlayer = forwardRef<ReactPlayerType, VideoProps>((props, ref) => {
     });
 
     const timer = useRef<NodeJS.Timeout | undefined>();
-
 
     const forceUpdate = useUpdate();
 
@@ -138,7 +138,10 @@ const ReactPlayer = forwardRef<ReactPlayerType, VideoProps>((props, ref) => {
         callback?.onWaiting?.(videoAttributes.current);
     };
     const handlePlaying = () => {
-        updateVideoState({ isWaiting: false, isPlay: !videoRef.current?.paused });
+        updateVideoState({
+            isWaiting: false,
+            isPlay: !videoRef.current?.paused,
+        });
     };
     const videoInit = (videoELe: HTMLVideoElement) => {
         if (!videoELe) {
@@ -227,13 +230,11 @@ const ReactPlayer = forwardRef<ReactPlayerType, VideoProps>((props, ref) => {
         };
     }, [videoRef.current]);
 
-    const {loadVideo,loadOptions} = useVideo(option);
+    const { loadVideo, loadOptions } = useVideo(option);
     /**
      * @description 执行用户回调
      */
     useVideoCallBack(videoAttributes.current, videoState, callback);
-
-
 
     const videoContext: VideoContextType = useMemo(() => {
         return {
@@ -261,23 +262,21 @@ const ReactPlayer = forwardRef<ReactPlayerType, VideoProps>((props, ref) => {
         const src = option.videoSrc
             ? option.videoSrc
             : option.qualityConfig?.qualityList.find((item) => {
-                return item.key === option.qualityConfig?.currentKey;
-            })?.url;
+                  return item.key === option.qualityConfig?.currentKey;
+              })?.url;
         if (!src) return;
         loadVideo(videoRef.current, src);
         return () => {
             videoUnmount(videoRef.current!);
             timer && clearTimeout(timer.current);
         };
-    }, [option,callback,videoRef.current,lightOffMaskRef.current]);
+    }, [option, callback, videoRef.current, lightOffMaskRef.current]);
 
     useImperativeHandle(ref, () => ({
         videoElement: videoRef.current!,
         ...videoAttributes.current,
         ...videoMethod,
     }));
-
-
 
     return (
         <div

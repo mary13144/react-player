@@ -13,15 +13,13 @@
   </a>
 </p>
 
-
-
 ## ⭐说明
 
-- 练习作品，没有经过严格测试，可能会有bug，请即使反馈
-- 目前移动端只进行了简单适配，很多功能不全，后序更新会及时弥补
-- PC端的按键功能暂时缺失，后序更新会及时弥补
-- 欢迎进行二次开发，同时如果你对这个项目感兴趣，对你有帮助，请点一个⭐
-- 如果有什么希望增加的功能可以进行反馈
+-   练习作品，没有经过严格测试，可能会有bug，请即使反馈
+-   目前移动端只进行了简单适配，很多功能不全，后序更新会及时弥补
+-   PC端的按键功能暂时缺失，后序更新会及时弥补
+-   欢迎进行二次开发，同时如果你对这个项目感兴趣，对你有帮助，请点一个⭐
+-   如果有什么希望增加的功能可以进行反馈
 
 ## ✨ 特性
 
@@ -51,21 +49,23 @@ yarn add react-player-component
 ## 🔨 示例
 
 ```tsx
-import {ReactPlayer} from "react-player-component";
+import { ReactPlayer } from 'react-player-component';
 function App() {
-  return (
-    <>
-      <ReactPlayer option={{
-        videoSrc:"https://vjs.zencdn.net/v/oceans.mp4",
-        crossOrigin:'anonymous',
-        width:1000,
-        height:600
-      }}/>
-    </>
-  )
+    return (
+        <>
+            <ReactPlayer
+                option={{
+                    videoSrc: 'https://vjs.zencdn.net/v/oceans.mp4',
+                    crossOrigin: 'anonymous',
+                    width: 1000,
+                    height: 600,
+                }}
+            />
+        </>
+    );
 }
 
-export default App
+export default App;
 ```
 
 ## :blue_book: ​ 文档
@@ -74,42 +74,42 @@ export default App
 
 如下属性来自`option`属性配置项.
 
-| 参数                   | 说明                                                         | 类型                                 | 默认值      |
-| ---------------------- | ------------------------------------------------------------ | ------------------------------------ | ----------- |
-| videoSrc               | 视频地址(与qualityConfig至少填写其中一个)                    | `string`                             | -           |
-| qualityConfig          | 视频清晰度选择列表                                           | `QualityConfig`                      | -           |
-| height                 | 视频容器的 height                                            | `number`                             | -           |
-| width                  | 视频容器的 width                                             | `number`                             | -           |
-| style                  | 视频容器style                                                | `CSSProperties`                      | -           |
-| className              | 视频容器className                                            | `string`                             | -           |
-| crossOrigin            | 视频资源是否允许跨域（只有允许跨域才能截图）                 | `CrossOrigin`                        | -           |
-| theme                  | 主题颜色                                                     | `string`                             | red         |
-| poster                 | 视频封面图                                                   | `string`                             | -           |
-| loop                   | 是否循环播放                                                 | `boolean`                            | false       |
-| setEndContent          | 自定义视频结束时显示的内容                                   | `React.ReactNode`                    | -           |
-| setBufferContent       | 自定义视频缓冲加载组件                                       | `React.ReactNode`                    | -           |
-| setPauseButtonContent  | 自定义视频暂停键                                             | `React.ReactNode`                    | -           |
-| pausePlacement         | 暂停键的位置                                                 | `PausePlacement`                     | bottomRight |
-| hideTime               | 多少毫秒，无任何操作，隐藏鼠标和控制器/ms                    | `number`                             | 2000        |
-| isShowMultiple         | 是否显示播放倍数功能                                         | `boolean`                            | true        |
-| isShowSet              | 是否显示设置功能                                             | `boolean`                            | true        |
-| isShowScreenShot       | 是否显示截图功能                                             | `boolean`                            | true        |
-| isShowPictureInPicture | 是否显示画中画                                               | `boolean`                            | true        |
-| isShowWebFullScreen    | 是否显示网页全屏                                             | `boolean`                            | true        |
-| language               | 语言                                                         | `zh`,`en`                            | `zh`        |
-| isShowPauseButton      | 是否显示暂停键                                               | `boolean`                            | true        |
-| videoType              | 视频播放格式，支持h264(`.mp4`,`.webm`,`.ogg`)，hls(`.m3u8`)  | `h264`,`hls`                         | `h264`      |
-| isShowToast            | 是否显示toast                                                | `boolean`                            | true        |
-| toastPosition          | toast的位置，此值只有`isToast`为true时，才有效果             | `ToastPosition`                      | leftTop     |
-| isShowProgressFloat    | 是否显示进度条浮层提示                                       | `boolean`                            | true        |
+| 参数                   | 说明                                                                  | 类型                                 | 默认值      |
+| ---------------------- | --------------------------------------------------------------------- | ------------------------------------ | ----------- |
+| videoSrc               | 视频地址(与qualityConfig至少填写其中一个)                             | `string`                             | -           |
+| qualityConfig          | 视频清晰度选择列表                                                    | `QualityConfig`                      | -           |
+| height                 | 视频容器的 height                                                     | `number`                             | -           |
+| width                  | 视频容器的 width                                                      | `number`                             | -           |
+| style                  | 视频容器style                                                         | `CSSProperties`                      | -           |
+| className              | 视频容器className                                                     | `string`                             | -           |
+| crossOrigin            | 视频资源是否允许跨域（只有允许跨域才能截图）                          | `CrossOrigin`                        | -           |
+| theme                  | 主题颜色                                                              | `string`                             | red         |
+| poster                 | 视频封面图                                                            | `string`                             | -           |
+| loop                   | 是否循环播放                                                          | `boolean`                            | false       |
+| setEndContent          | 自定义视频结束时显示的内容                                            | `React.ReactNode`                    | -           |
+| setBufferContent       | 自定义视频缓冲加载组件                                                | `React.ReactNode`                    | -           |
+| setPauseButtonContent  | 自定义视频暂停键                                                      | `React.ReactNode`                    | -           |
+| pausePlacement         | 暂停键的位置                                                          | `PausePlacement`                     | bottomRight |
+| hideTime               | 多少毫秒，无任何操作，隐藏鼠标和控制器/ms                             | `number`                             | 2000        |
+| isShowMultiple         | 是否显示播放倍数功能                                                  | `boolean`                            | true        |
+| isShowSet              | 是否显示设置功能                                                      | `boolean`                            | true        |
+| isShowScreenShot       | 是否显示截图功能                                                      | `boolean`                            | true        |
+| isShowPictureInPicture | 是否显示画中画                                                        | `boolean`                            | true        |
+| isShowWebFullScreen    | 是否显示网页全屏                                                      | `boolean`                            | true        |
+| language               | 语言                                                                  | `zh`,`en`                            | `zh`        |
+| isShowPauseButton      | 是否显示暂停键                                                        | `boolean`                            | true        |
+| videoType              | 视频播放格式，支持h264(`.mp4`,`.webm`,`.ogg`)，hls(`.m3u8`)           | `h264`,`hls`                         | `h264`      |
+| isShowToast            | 是否显示toast                                                         | `boolean`                            | true        |
+| toastPosition          | toast的位置，此值只有`isToast`为true时，才有效果                      | `ToastPosition`                      | leftTop     |
+| isShowProgressFloat    | 是否显示进度条浮层提示                                                | `boolean`                            | true        |
 | progressFloatPosition  | 进度条浮层提示的位置，此值只有`isShowProgressFloat`为true时，才有效果 | `ProgressFloatPosition`              | bottom      |
-| setProgressTimeTip     | 自定义时间显示                                               | `(currentTime: string) => ReactNode` | -           |
+| setProgressTimeTip     | 自定义时间显示                                                        | `(currentTime: string) => ReactNode` | -           |
 
 > 温馨提示：类型接口声明如下：:point_down:
 >
 > ```typescript
 > export type CrossOrigin = 'anonymous' | 'use-credentials' | '' | undefined;
-> 
+>
 > export interface QualityList {
 >     key: number;
 >     url: string;
@@ -144,10 +144,7 @@ export default App
 >     | 'leftBottom'
 >     | 'rightBottom'
 >     | 'center';
-> 
 > ```
-
-
 
 #### 方法
 
@@ -165,18 +162,16 @@ export default App
 
 > `提示：`如上方法要使用`ref`获取才能调用
 >
-> ``` ts
+> ```ts
 > /**
 >  * @description ref 获取的react-player对象
 >  */
 > useImperativeHandle(ref, () => ({
 >     videoElement: videoRef.current!,
 >     ...videoAttributes.current,
->     ...videoMethod,  
+>     ...videoMethod,
 > }));
 > ```
-
-
 
 #### 回调函数
 
@@ -195,8 +190,6 @@ export default App
 | onIsControl     | 显示控件回调函数       | (e: videoAttributes) => void |
 | onRateChange    | 调整播放倍数回调函数   | (e: videoAttributes) => void |
 | onWaiting       | 视频缓冲回调函数       | (e: videoAttributes) => void |
-
-
 
 #### 视频属性
 
@@ -252,20 +245,16 @@ export interface VideoAttributes {
 }
 ```
 
-
-
 #### `react-video-player`接收的参数接口如下：:point_down:
 
 ```tsx
 export interface VideoProps {
     option: VideoPlayerOptions;
-    callback?: Partial<VideoCallBack>; 
+    callback?: Partial<VideoCallBack>;
 }
 ```
 
-
-
 #### **后序更新计划**
 
-- 更新PC端的按键快进、后退、暂停、播放等功能
-- 更新全新的移动端逻辑、包括左边上划亮度提升、右边上划音量提升、右划快进、左划后退等逻辑
+-   更新PC端的按键快进、后退、暂停、播放等功能
+-   更新全新的移动端逻辑、包括左边上划亮度提升、右边上划音量提升、右划快进、左划后退等逻辑

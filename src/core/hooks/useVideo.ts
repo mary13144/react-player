@@ -1,14 +1,10 @@
 import { useRef } from 'react';
-import {
-    supportTypes,
-    VideoPlayerOptions,
-} from '@/types';
+import { supportTypes, VideoPlayerOptions } from '@/types';
 
 import Hls from 'hls.js';
 import { defaultVolume } from '@/core/config';
 
 const useVideo = (option: VideoPlayerOptions) => {
-
     const curHls = useRef<Hls | undefined>();
 
     /**
@@ -75,7 +71,7 @@ const useVideo = (option: VideoPlayerOptions) => {
      * @param url
      */
     const loadSrc = (videoEle: HTMLVideoElement, url: string) => {
-        videoEle.innerHTML = ''
+        videoEle.innerHTML = '';
         supportTypes.forEach((item) => {
             const source = document.createElement('source');
             source.type = item;
@@ -115,7 +111,7 @@ const useVideo = (option: VideoPlayerOptions) => {
         const curLoop = localStorage.getItem('loop');
         const curRate = localStorage.getItem('playRate');
         if (curVolume) {
-            videoELe.volume = parseFloat(curVolume)
+            videoELe.volume = parseFloat(curVolume);
         } else {
             videoELe.volume = defaultVolume / 100;
         }
@@ -126,7 +122,7 @@ const useVideo = (option: VideoPlayerOptions) => {
             videoELe.loop = curLoop === 'true';
         }
         if (curRate) {
-            videoELe.playbackRate = parseFloat(curRate)
+            videoELe.playbackRate = parseFloat(curRate);
         }
     };
     return {

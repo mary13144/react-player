@@ -11,7 +11,7 @@ import {
     LanguageType,
     VideoSrcType,
     PausePlacement,
-    ProgressFloatPosition
+    ProgressFloatPosition,
 } from '@/types';
 
 export { ReactPlayer };
@@ -29,5 +29,5 @@ export type {
     LanguageType,
     VideoSrcType,
     PausePlacement,
-    ProgressFloatPosition
+    ProgressFloatPosition,
 };

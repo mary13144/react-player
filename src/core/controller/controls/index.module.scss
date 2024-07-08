@@ -1,5 +1,5 @@
 @import 'src/assets/css/mixin';
-@import "src/assets/css/var";
+@import 'src/assets/css/var';
 .controls-container {
     transition: all 0.5s;
     @include wh(100%, 2.68rem);
@@ -14,7 +14,7 @@
 
         .multifunction-item {
             margin: 0 0.625rem;
-            z-index:$top-layer;
+            z-index: $top-layer;
         }
 
         .controls-icon {

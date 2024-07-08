@@ -26,7 +26,7 @@ const SvgIcon = memo((props: SvgIconProps) => {
     return (
         <svg
             fontSize={fontSize}
-            style={{ ...svgStyle,fontSize,...style }}
+            style={{ ...svgStyle, fontSize, ...style }}
             aria-hidden={true}
             className={className}
             onClick={onClick}

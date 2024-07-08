@@ -25,7 +25,7 @@ export default defineConfig({
         }),
     ],
     build: {
-        terserOptions:{
+        terserOptions: {
             compress: {
                 drop_console: true, // 移除 console.log 语句
                 drop_debugger: true, // 移除 debugger 语句

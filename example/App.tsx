@@ -1,6 +1,6 @@
 import ReactPlayer from '@/core/index';
-import {QualityConfig, VideoPlayerOptions} from '@/types';
-import {useState} from "react";
+import { QualityConfig, VideoPlayerOptions } from '@/types';
+import { useState } from 'react';
 
 function App() {
     const defaultQualityList: QualityConfig = {
@@ -35,20 +35,19 @@ function App() {
     const [option] = useState<VideoPlayerOptions>({
         qualityConfig: defaultQualityList,
         // videoSrc: "https://vjs.zencdn.net/v/oceans.mp4",
-        videoSrc: 'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4',
+        videoSrc:
+            'https://gs-files.oss-cn-hongkong.aliyuncs.com/okr/test/file/2021/07/01/haiwang.mp4',
         // poster: 'https://via.placeholder.com/600x400.png?text=Poster+Image',
         language: 'en',
         isShowSet: true,
         width: 800,
         height: 600,
         crossOrigin: 'anonymous',
-    })
+    });
     return (
         <>
             <div>
-                <ReactPlayer
-                    option={option}
-                />
+                <ReactPlayer option={option} />
             </div>
         </>
     );
