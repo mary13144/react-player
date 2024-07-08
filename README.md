@@ -5,6 +5,9 @@
 <p align="center">简洁，美观，功能强大的react播放器</p>
 
 <p align="center">
+  <a href="https://www.npmjs.com/package/react-player-component">
+    <img src="https://img.shields.io/badge/npm-1.0.0-blue" alt="npm:1.0.0">
+  </a>
   <a href="https://github.com/microsoft/TypeScript">
     <img src="https://img.shields.io/badge/typescript-5.2.2-brightgreen.svg" alt="license">
   </a>
@@ -12,6 +15,7 @@
     <img src="https://img.shields.io/badge/react-18.2.22-brightgreen.svg" alt="react">
   </a>
 </p>
+
 
 ## ⭐说明
 
